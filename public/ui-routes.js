@@ -10,7 +10,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
          url: '/',
          templateUrl: 'Home/home.template.html',
          controller: 'homeController',
-      })/*
+      })
       .state('login', {
          url: '/login',
          templateUrl: 'Login/login.template.html',
@@ -25,7 +25,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
          url: '/logout',
          templateUrl: 'Home/home.template.html',
          controller: 'logoutController',
-      })
+      })/*
       .state('prjOverview', {
          url: '/prjs',
          templateUrl: 'Project/prjOverview.template.html',
