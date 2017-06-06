@@ -1,0 +1,47 @@
+.msg-header {
+   clear: both;
+   background-color: #EEF;
+}
+
+.navbar {
+   margin-bottom: 0px;
+}
+/*
+.pull-right li {
+   color: #777;
+   top: 10px;
+   display: inline;
+}
+
+.pull-right li a {
+   text-decoration: none;
+   position: relative;
+   display: inline;
+   color: #777;
+}
+
+.pull-right li a:hover {
+   text-decoration: none;
+   background-color: #eee;
+   background-color: transparent;
+}
+
+.pull-right li a.dropdown-title {
+   color: #23527c;
+}
+
+.pull-right li a.dropdown-title:hover {
+   text-decoration: underline;
+}
+
+#username, #dropdown {
+   margin: 15px;
+}
+
+.dropdown-item {
+   margin: 0px;
+}
+
+.dropdown-menu li a{
+   color: #333;
+}*/
