@@ -1,12 +1,11 @@
 app.controller('registerController',
  ['$scope', '$state', '$http', 'notifyDlg', 'login',
  function($scope, $state, $http, nDlg, login) {
-   $scope.user = {role: 0};
+   $scope.user = {role: 0, phoneNum: "1111111111"};
    $scope.errors = [];
 
    $scope.registerUser = function() {
-      console.log($scope.user);
-      $http.post("/Prss", $scope.user)
+      $http.post("/Usrs", $scope.user)
       .then(function() { 
          return nDlg.show($scope, 
           "Registration succeeded.  Login automatically?", 

@@ -13,7 +13,7 @@ router.get('/', function(req, res) {
     Tags.noPermission)) {
       for (var cookie in ssnUtil.sessions) {
          ssn = ssnUtil.sessions[cookie];
-         body.push({cookie: cookie, prsId: ssn.id, loginTime: ssn.loginTime});
+         body.push({cookie: cookie, usrId: ssn.id, loginTime: ssn.loginTime});
       }
       res.status(200).json(body);
    }
@@ -29,7 +29,7 @@ router.post('/', function(req, res) {
    var cookie;
    var cnn = req.cnn;
  
-   cnn.chkQry('select * from Person where email = ?', [req.body.email],
+   cnn.chkQry('select * from User where email = ?', [req.body.email],
    function(err, result) {
       if (req.validator.check(result.length && result[0].password ===
        req.body.password, Tags.badLogin)) {
@@ -67,7 +67,7 @@ router.get('/:cookie', function(req, res, next) {
     parseInt(req.session.id) === parseInt(ssnUtil.sessions[cookie].id)), 
     Tags.noPermission)) {
 
-      res.json({cookie: cookie, prsId: ssnUtil.sessions[cookie].id, 
+      res.json({cookie: cookie, usrId: ssnUtil.sessions[cookie].id, 
        loginTime: ssnUtil.sessions[cookie].loginTime});
       res.status(200).end();
    }

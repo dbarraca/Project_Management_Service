@@ -4,12 +4,10 @@ var cookieParser = require('cookie-parser');
 
 var bodyParser = require('body-parser');
 var async = require('async');
-
 var Session = require('./Routes/Session.js');
 var CnnPool = require('./Routes/CnnPool.js');
-
-/*var Validator = require('./Routes/Validator.js');
-var Tags = require('./Routes/Validator.js').Tags;*/
+var Validator = require('./Routes/Validator.js');
+var Tags = require('./Routes/Validator.js').Tags;
 
 var app = express();
 //app.use(function(req, res, next) {console.log("Hello"); next();});
@@ -29,7 +27,7 @@ app.use(Session.router);
 // otherwise respond immediately with 401 and noLogin error tag.
 app.use(function(req, res, next) {
    console.log(req.path);
-   if (req.session || (req.method === 'POST' &&(req.path === '/Prss' || 
+   if (req.session || (req.method === 'POST' && (req.path === '/Usrs' || 
     req.path === '/Ssns'))) {
       req.validator = new Validator(req, res);
       next();
@@ -42,12 +40,10 @@ app.use(function(req, res, next) {
 app.use(CnnPool.router);
 
 // Load all subroutes
-/*
-app.use('/Prss', require('./Routes/Account/Prss.js'));
+
+app.use('/Usrs', require('./Routes/Account/Usrs.js'));
 app.use('/Ssns', require('./Routes/Account/Ssns.js'));
-app.use('/Cnvs', require('./Routes/Conversation/Cnvs.js'));
-app.use('/Msgs', require('./Routes/Conversation/Msgs.js'));
-*/
+app.use('/Prjs', require('./Routes/Project/Prjs.js'));
 
 // Special debugging route for /DB DELETE.  Clears all table contents,
 //resets all auto_increment keys to start at 1, and reinserts one admin user.
@@ -55,14 +51,14 @@ app.delete('/DB', function(req, res) {
    if (req.validator.check(req.session && req.session.isAdmin(), 
     Tags.noPermission)) {
       // Callbacks to clear tables
-      var cbs = ["User", "Project", "Participation", "Skill"].map(function(tblName) {
+      var cbs = ["User", "Project", "Participation", "Skill", "ProjectSkills"].map(function(tblName) {
          return function(cb) {
             req.cnn.query("delete from " + tblName, cb);
          };
       });
 
       // Callbacks to reset increment bases
-      cbs = cbs.concat(["User", "Project", "Participation", "Skill"].map(function(tblName) {
+      cbs = cbs.concat(["User", "Project", "Participation", "Skill", "ProjectSkills"].map(function(tblName) {
          return function(cb) {
             req.cnn.query("alter table " + tblName + " auto_increment = 1", cb);
          };
@@ -70,9 +66,9 @@ app.delete('/DB', function(req, res) {
 
       // Callback to reinsert admin user
       cbs.push(function(cb) {
-         req.cnn.query('INSERT INTO Person (firstName, lastName, email,' +
-             ' password, whenRegistered, role) VALUES ' +
-             '("Joe", "Admin", "adm@11.com","password", NOW(), 1);', cb);
+         req.cnn.query('INSERT INTO User (firstName, lastName, email,' +
+             ' password, phoneNum, role) VALUES ' +
+             '("Joe", "Admin", "adm@11.com", "password", "1111111111", 1);', cb);
       });
 
       // Callback to clear sessions, release connection and return result
@@ -94,6 +90,7 @@ app.delete('/DB', function(req, res) {
 
 // Handler of last resort.  Print a stacktrace to console and send a 500 response.
 app.use(function(req, res, next) {
+   console.log("testtest");
    res.status(500).end();
    res.cnn.release();
 });

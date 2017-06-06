@@ -33,12 +33,12 @@
           ng-model="confPass">
          <h3 ng-if="confPass != user.password">Passwords do not match</h3>
       </fieldset>
-      <div class="checkbox">
+<!--      <div class="checkbox">
         <label>
            <input type="checkbox" ng-model="user.termsAccepted">
             Do you accept the terms and conditions?
         </label>
-     </div>
+     </div>-->
 
       <button type="submit" class="btn btn-primary" ng-click="registerUser()"
       ng-disabled="!user.email || !user.password || !confPass || (!!user.password && user.password !== confPass)">

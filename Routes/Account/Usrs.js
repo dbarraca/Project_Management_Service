@@ -4,32 +4,33 @@ var router = Express.Router({caseSensitive: true});
 var async = require('async');
 var mysql = require('mysql');
 
-router.baseURL = '/Prss';
+router.baseURL = '/Usrs';
 
 router.get('/', function(req, res) {
    var email = req.session && req.session.isAdmin() && req.query.email ||
     !req.session.isAdmin() && req.session.email;
 
-   var handler = function(err, prsArr) {
-      res.json(prsArr);
+   var handler = function(err, UsrArr) {
+      res.json(UsrArr);
       req.cnn.release();
    };
 
    if (!req.session.isAdmin() && req.query.email && 
     !req.session.email.includes(req.query.email)) {
-      req.cnn.chkQry('select id, email from Person where email = ?', [''],
+      req.cnn.chkQry('select id, email from User where email = ?', [''],
       handler);
    }
    else if (email) {
-      req.cnn.chkQry('select id, email from Person where email like ?', 
+      req.cnn.chkQry('select id, email from User where email like ?', 
        [(email + "%")], handler);
    }
    else if(req.session.isAdmin()) {
-      req.cnn.chkQry('select id, email from Person', handler);
+      req.cnn.chkQry('select id, email from User', handler);
    }
 });
 
 router.post('/', function(req, res) {
+  console.log("post usr");
    var vld = req.validator;  // Shorthands
    var body = req.body;
    var admin = req.session && req.session.isAdmin();
@@ -38,8 +39,6 @@ router.post('/', function(req, res) {
    if (admin && !body.password)
       body.password = "*";
 
-   body.whenRegistered = new Date();
-
    async.waterfall([
    function(cb) {
       if (vld.hasFields(body, ["email", "lastName", "password", "role"], cb)
@@ -47,21 +46,12 @@ router.post('/', function(req, res) {
        .chain(body.lastName.length !== 0, Tags.missingField, "lastName")
        .chain(body.password.length !== 0, Tags.missingField, "password")
        .chain(body.role === 0 || admin, Tags.noPermission)
-       .chain(body.termsAccepted || admin, Tags.noTerms)
        .check(body.role >= 0, Tags.badValue, ["role"], cb)) {
-         cnn.chkQry('select * from Person where email = ?', body.email, cb);
+         cnn.chkQry('select * from User where email = ?', body.email, cb);
       }
    },
-   function(existingPrss, fields, cb) {
-      if (vld.check(!existingPrss.length, Tags.dupEmail, null, cb)) {
-         if((!body.termsAccepted || body.termsAccepted === false) && admin) {
-             body.termsAccepted = null;
-         }
-         else {
-            body.termsAccepted = new Date();
-         } 
-         cnn.chkQry('insert into Person set ?', body, cb);
-      }
+   function(existingUsrs, fields, cb) {
+      cnn.chkQry('insert into User set ?', body, cb);
    },
    function(result, fields, cb) {
       res.location(router.baseURL + '/' + result.insertId).end();
@@ -77,17 +67,17 @@ router.get('/:id', function(req, res) {
    var vld = req.validator;
    if (vld.chain(req.session && req.session.id && req.session.isAdmin() || 
     (req.params.id && parseInt(req.params.id) > 0), Tags.noLogin)
-    .checkPrsOK(req.params.id)) {
-      req.cnn.query('select email, id, firstName, lastName, whenRegistered,'
-       + ' role, termsAccepted  from Person where id = ?', [req.params.id],
-       function(err, prsArr) {
+    .checkUsrOK(req.params.id)) {
+      req.cnn.query('select email, id, firstName, lastName, phoneNum'
+       + ' role from User where id = ?', [req.params.id],
+       function(err, usrArr) {
 
-          if (vld.chain(prsArr.length, Tags.notFound)
+          if (vld.chain(usrArr.length, Tags.notFound)
            .check(req.session && req.session.id && req.session.isAdmin() 
-           || (prsArr.length && parseInt(prsArr[0].id) === 
+           || (usrArr.length && parseInt(usrArr[0].id) === 
            parseInt(req.params.id) && parseInt(req.session.id) === 
            parseInt(req.params.id)), Tags.noLogin)) {
-             res.json(prsArr);
+             res.json(usrArr);
           }
           req.cnn.release();
        });
@@ -106,7 +96,7 @@ router.put('/:id', function(req, res) {
    if (!body.hasOwnProperty("id")) {
       async.waterfall([
       function(cb) {
-         if (vld.checkPrsOK(req.params.id, cb) && vld.hasOnlyFields(body,
+         if (vld.checkUsrOK(req.params.id, cb) && vld.hasOnlyFields(body,
           ["firstName", "lastName", "password", "oldPassword", "role"], cb) &&
           vld.chain(!body.role || body.role === 0 || admin && body.role === 1, 
           Tags.badValue, ["role"])
@@ -114,7 +104,7 @@ router.put('/:id', function(req, res) {
           Tags.badValue, ["password"])
           .check(!body.password || body.oldPassword || admin, Tags.noOldPwd, 
           null, cb)) {
-            cnn.chkQry("Select * from Person where id = ? ", 
+            cnn.chkQry("Select * from User where id = ? ", 
              [req.params.id], cb); 
          }
       },
@@ -123,7 +113,7 @@ router.put('/:id', function(req, res) {
           vld.check(admin || !body.password || body.oldPassword === 
           qRes[0].password, Tags.oldPwdMismatch, null, cb)) {
             delete body.oldPassword;
-            cnn.chkQry("update Person set ? where id = ?", 
+            cnn.chkQry("update User set ? where id = ?", 
              [body, req.params.id], cb)
          }
       },
@@ -146,11 +136,11 @@ router.delete('/:id', function(req, res) {
    var cnn = req.cnn;
    async.waterfall([
    function(cb) {
-      cnn.chkQry('SELECT * from Person where id = ?', [req.params.id], cb);
+      cnn.chkQry('SELECT * from User where id = ?', [req.params.id], cb);
    },
    function(result, fields, cb) {
       if (vld.chain(result && result.length > 0, Tags.notFound).checkAdmin(cb))
-         cnn.chkQry('DELETE from Person where id = ?', [req.params.id], cb);
+         cnn.chkQry('DELETE from User where id = ?', [req.params.id], cb);
    },
    function(result, err, cb) {
       if (!err)

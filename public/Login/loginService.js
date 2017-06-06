@@ -13,7 +13,7 @@ function($http) {
             return $http.get("Ssns/" + cookie);
          })
          .then(function(response) {
-            return $http.get('/Prss/' + response.data.prsId);
+            return $http.get('/Usrs/' + response.data.usrId);
          })
          .then(function(response) {
             user = response.data[0];

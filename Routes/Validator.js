@@ -19,7 +19,7 @@ Validator.Tags = {
    forbiddenField: "forbiddenField",// Cannot set un changable fields
    forbiddenRole: "forbiddenRole",  // Cannot set to this role
    noOldPwd: "noOldPwd",            // Change of password requires an old password
-   dupTitle: "dupTitle",            // Title duplicates an existing Conversation title
+   dupTitle: "dupTitle",            // Title duplicates an existing Project title
    dupEnrollment: "dupEnrollment",  // Duplicate enrollment
    oldPwdMismatch: "oldPwdMismatch",
    queryFailed: "queryFailed"
@@ -38,7 +38,6 @@ Validator.Tags = {
 // list and call an error handler (e.g. a waterfall default function),
 // leaving the caller to cover the "good" case only.
 Validator.prototype.check = function(test, tag, params, cb) {
-//   var hasTag = false;
    if (!test)
       this.errors.push({tag: tag, params: params});
    if (this.errors.length) {
@@ -50,8 +49,10 @@ Validator.prototype.check = function(test, tag, params, cb) {
          else if (this.errors[0].tag === Validator.Tags.noPermission) {
             this.res.status(403).end();
          }
-         else
+         else {
+            console.log("testcheck");
             this.res.status(400).json(this.errors);
+         }
          this.res = null;   // Preclude repeated closings
       }
       if (cb) {
@@ -75,11 +76,11 @@ Validator.prototype.checkAdmin = function(cb) {
     Validator.Tags.noPermission, null, cb);
 };
 
-// Validate that AU is the specified person or is an admin
-Validator.prototype.checkPrsOK = function(prsId, cb) {
+// Validate that AU is the specified User or is an admin
+Validator.prototype.checkUsrOK = function(UsrId, cb) {
 
-   return this.check(this.session && prsId &&
-    (this.session.isAdmin() || parseInt(this.session.id) === parseInt(prsId)),
+   return this.check(this.session && UsrId &&
+    (this.session.isAdmin() || parseInt(this.session.id) === parseInt(UsrId)),
     Validator.Tags.noPermission, null, cb);
 };
 
