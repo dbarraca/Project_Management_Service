@@ -7,7 +7,7 @@
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"></script>
-
+ 
 <script src="pmsapp.js"></script>
 <link rel="stylesheet" href="pmsapp.css"></script>
 
@@ -21,13 +21,8 @@
 
 <body ng-app="mainApp">
    <nav class="navbar navbar-default">
+      <div class="siteTitle">Project Management</div>
       <ul class="nav navbar-nav">
-         <li ng-if="!user">
-            <a ui-sref="login">Login</a>
-         </li>
-         <li ng-if="!user">
-            <a ui-sref="register">Register</a>
-         </li>
 <!--         <li ng-if="!!user">
             <a ui-sref="prjOverview">All Projects</a>
          </li>
@@ -36,6 +31,12 @@
          </li>-->
       </ul>
       <ul class="nav navbar pull-right">
+         <li ng-if="!user">
+            <a ui-sref="login">Login</a>
+         </li>
+         <li ng-if="!user">
+            <a ui-sref="register">Register</a>
+         </li>
          <li ng-if="!!user">
             <a ui-sref="logout" id="logout">Logout</a>
          </li>

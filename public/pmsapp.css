@@ -6,6 +6,49 @@
 .navbar {
    margin-bottom: 0px;
 }
+
+body {
+   font-family: 'Raleway', sans-serif;
+}
+
+.siteTitle {
+   font-family: 'Lato', sans-serif;
+   font-size: 3em;
+}
+
+.jumbotron {
+   list-style: none;
+/*   width: 100%;
+   height: 50%;*/
+   padding: 0;
+}
+
+.slide1 {
+   background-image: url("Assets/Meet_Team.jpg");
+   display: none;
+}
+
+.slideText2 {
+   position: relative; 
+   top: 5%;
+   left: 20px;
+}
+
+.slide2 {
+   background-position: -100px;
+   height: 450px;
+   width: 100%;
+   background-size: 110%;
+   background-repeat: no-repeat;
+   background-image: url("Assets/Meet_Team.jpg");
+}
+
+.homeContainer {
+   font-family: 'Lato', sans-serif;
+   color: #E0E0E0;
+   text-shadow: 1px 1px 1px #000;
+}
+
 /*
 .pull-right li {
    color: #777;
