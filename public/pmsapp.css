@@ -14,6 +14,7 @@ body {
 .siteTitle {
    font-family: 'Lato', sans-serif;
    font-size: 3em;
+   width: 400px;
 }
 
 .jumbotron {
@@ -23,8 +24,16 @@ body {
    padding: 0;
 }
 
+.slide1, .slide2 {
+   background-position: 20% 20%;
+   height: 450px;
+   width: 100%;
+   background-size: 100%;
+   background-repeat: no-repeat;
+}
+
 .slide1 {
-   background-image: url("Assets/Meet_Team.jpg");
+   background-image: url("Assets/Project2.jpg");
    display: none;
 }
 
@@ -35,11 +44,7 @@ body {
 }
 
 .slide2 {
-   background-position: -100px;
-   height: 450px;
-   width: 100%;
-   background-size: 110%;
-   background-repeat: no-repeat;
+
    background-image: url("Assets/Meet_Team.jpg");
 }
 
@@ -49,7 +54,6 @@ body {
    text-shadow: 1px 1px 1px #000;
 }
 
-/*
 .pull-right li {
    color: #777;
    top: 10px;
@@ -68,7 +72,7 @@ body {
    background-color: #eee;
    background-color: transparent;
 }
-
+/*
 .pull-right li a.dropdown-title {
    color: #23527c;
 }
