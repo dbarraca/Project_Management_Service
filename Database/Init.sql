@@ -1,6 +1,6 @@
-drop database if exists dbarraca;
-create database dbarraca;
-use dbarraca;
+drop database if exists gheald_final;
+create database gheald_final;
+use gheald_final;
 
 create table User (
    id int auto_increment primary key,
