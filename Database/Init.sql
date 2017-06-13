@@ -25,10 +25,17 @@ create table Project (
    unique key UK_title(title)
 );
 
+create table Skill (
+   id int auto_increment primary key,
+   name varchar(20) not null
+);
+
 create table ProjectSkills (
-   prjId int auto_increment primary key,
-   skill varchar(100) not null,
+   prjId int primary key,
+   sklId int not null,
    constraint FKProjectSkill_prjId foreign key (prjId) references Project(id)
+    on delete cascade,
+   constraint FKProjectSkill_sklId foreign key (sklId) references Skill(id)
     on delete cascade
 );
 
