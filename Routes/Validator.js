@@ -42,6 +42,11 @@ Validator.prototype.check = function(test, tag, params, cb) {
       this.errors.push({tag: tag, params: params});
    if (this.errors.length) {
 
+
+      this.errors.forEach(function(err) {
+         console.log("error " + err.tag);
+      });
+
       if (this.res) {
          if ((this.errors[0].tag === Validator.Tags.noLogin)) {
             this.res.status(401).end();

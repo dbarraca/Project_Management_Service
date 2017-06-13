@@ -20,14 +20,17 @@ CnnPool.router = function(req, res, next) {
    console.log("Getting connection");
    CnnPool.singleton.getConnection(function(err, cnn) {
 
-      if (err)
+      if (err) {
+         console.log("connection error");
          res.status(500).json('Failed to get connection' + err);
+      }
       else {
          console.log("Connection acquired");
          cnn.chkQry = function(qry, prms, cb) {
             this.query(qry, prms, function(err, result, fields) {
-               if (err)
+               if (err) {
                   res.status(500).json('Failed query ' + qry);
+               }
                cb(err, result, fields);
             });
          };
