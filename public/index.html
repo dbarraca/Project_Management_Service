@@ -16,20 +16,21 @@
 <script src="Login/logoutController.js"></script>
 <script src="Login/loginController.js"></script>
 <script src="Login/loginService.js"></script>
+<script src="Project/prjOverviewController.js"></script>
 <script src="Util/notifyDlg.js"></script>
 <script src="ui-routes.js"></script>
 
 <body ng-app="mainApp">
    <nav class="navbar navbar-default">
       <div class="siteTitle">Project Management</div>
-<!--      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav">
         <li ng-if="!!user">
             <a ui-sref="prjOverview">All Projects</a>
          </li>
          <li ng-if="!!user">
             <a ui-sref="myPrjOverview({ownerId: {{user.id}}})">My Projects</a>
          </li>
-      </ul>-->
+      </ul>
       <ul class="nav navbar pull-right">
          <li ng-if="!user">
             <a ui-sref="login">Login</a>

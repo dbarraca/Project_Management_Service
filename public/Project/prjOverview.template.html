@@ -1,0 +1,11 @@
+<h2>Projects</h2>
+<div class="list-group">
+   <div class="list-group-item" ng-repeat="prj in prjs">
+      <prj-summary to-summarize="prj" user="{{user.id}}" del="delPrj($index)" edit="editPrj($index)"></prj-summary>
+   </div>
+</div>
+
+<button class="btn btn-primary" type="button" style="margin-top:5px" 
+   ng-click="newPrj()">
+   New Project
+</button>

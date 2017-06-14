@@ -25,7 +25,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
          url: '/logout',
          templateUrl: 'Home/home.template.html',
          controller: 'logoutController',
-      })/*
+      })
       .state('prjOverview', {
          url: '/prjs',
          templateUrl: 'Project/prjOverview.template.html',
@@ -38,7 +38,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
                });
             }]
          }
-      })
+      })/*
       .state('myPrjOverview', {
          url: '/myPrjs/:ownerId',
          templateUrl: 'Project/prjOverview.template.html',
@@ -53,11 +53,11 @@ app.config(['$stateProvider', '$urlRouterProvider',
             }]
          }
       })*/
-/*      .state('prjDetail', {
+      .state('prjDetail', {
          url: '/prjs/:prjId',
          templateUrl: 'Project/prjDetail.template.html',
          controller: 'prjDetailController',
-         resolve: {
+         /*resolve: {
             msgs: ['$q', '$http', '$stateParams',
              function($q, $http, $stateParams) {
                return $http.get('/Prjs/'+ $stateParams.prjId + '/Msgs')
@@ -65,8 +65,8 @@ app.config(['$stateProvider', '$urlRouterProvider',
                   return response.data;
                });
             }]
-         }
+         }*/
       }
-      )*/;
+      );
 
    }]);

@@ -36,7 +36,8 @@ app.directive('prjSummary', [function() {
          user: '@',
       },
       template: '<a  href="#" ui-sref="prjDetail({prjId: {{prj.id}}})">'
-       + '{{prj.title}} {{prj.lastMessage | date : "medium"}}</a>'
+       + '{{prj.title}}</a>'
+       + '<div>{{prj.type}}</div> <div>{{prj.description}}</div>'
        + '<button type="button" class="btn btn-default pull-right" '
        + 'ng-show="user == prj.ownerId" ng-click="del($index)">'
        + '<span class="glyphicon glyphicon-trash"></span>'

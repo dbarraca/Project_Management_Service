@@ -47,23 +47,32 @@ router.post('/', function(req, res) {
    var vld = req.validator;
    var body = req.body;
    var cnn = req.cnn;
+   console.log("went to posting prj");
 
    async.waterfall([
    function(cb) {
       if (vld.check(body.title && body.title.length > 0, Tags.missingField, 
        ["title"], cb))
+         console.log("has title: " + body.title);
          cnn.chkQry('select * from Project where title = ?', 
           [body.title],cb);
    },
    function(existingPrj, fields, cb) {
+    console.log("checking existing project");
       if (vld.chain(body.title && body.title.length > 0, Tags.missingField, 
        ["title"])
        .chain(!existingPrj.length, Tags.dupTitle, ["title"])
        .check(body.title && parseInt(body.title.length) < 81, Tags.badValue, 
-       ["title"], cb))
-         cnn.chkQry("insert into Project (title, ownerId) values (?, ?)", [body.title, req.session.id], cb);
+       ["title"], cb)) {
+         cnn.chkQry("insert into Project (title, ownerId, type, description) values (?, ?, ?, ?)", 
+          [body.title, req.session.id, "dummyType", "dummyDescription"], cb);
+         console.log("insert Project");
+         console.log("body.title " + body.title);
+         console.log("req.session.id " + req.session.id);
+      }
    },
    function(insRes, fields, cb) {
+    console.log("setting locatoin");
       res.location(router.baseURL + '/' + insRes.insertId).end();
       cb();
    }],
