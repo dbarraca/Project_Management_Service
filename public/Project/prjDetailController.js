@@ -11,6 +11,16 @@ app.controller('prjDetailController',
       $scope.type = rsp.data.type;
       $scope.description = rsp.data.description;
    })
+   .then(function(rsp) {
+      $scope.skills = [{id:1}, {id:2}];
+/*
+   .then(function(rsp) {
+      return $http.get("/Prjs/" + prjId + "/skls/");
+   })
+   .then(function(rsp) {
+      $scope.skills = rsp;
+   })*/
+   })
    .catch(function(err) {
       nDlg.show($scope, JSON.stringify(err));
    });
