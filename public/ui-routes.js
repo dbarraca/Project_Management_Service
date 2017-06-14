@@ -26,6 +26,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
          templateUrl: 'Home/home.template.html',
          controller: 'logoutController',
       })
+
       .state('prjOverview', {
          url: '/prjs',
          templateUrl: 'Project/prjOverview.template.html',
@@ -66,7 +67,11 @@ app.config(['$stateProvider', '$urlRouterProvider',
                });
             }]
          }*/
-      }
-      );
+      })
+      .state('newProject', {
+         url: '/new_project',
+         templateUrl: 'Project/newProject.template.html',
+         controller: 'newProjectController',
+      });
 
    }]);

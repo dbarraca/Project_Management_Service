@@ -65,7 +65,7 @@ router.post('/', function(req, res) {
        .check(body.title && parseInt(body.title.length) < 81, Tags.badValue, 
        ["title"], cb)) {
          cnn.chkQry("insert into Project (title, ownerId, type, description) values (?, ?, ?, ?)", 
-          [body.title, req.session.id, "dummyType", "dummyDescription"], cb);
+          [body.title, req.session.id, body.type, "dummyDescription"], cb);
          console.log("insert Project");
          console.log("body.title " + body.title);
          console.log("req.session.id " + req.session.id);

@@ -71,10 +71,10 @@ app.controller('prjOverviewController',
          templateUrl: 'Project/editPrjDlg.template.html',
          scope: $scope
       }).result
-      .then(function(newTitle) {
-         console.log(newTitle);
+      .then(function(newTitle, newType) {
+         console.log("type " + newType);
          selectedTitle = newTitle;
-         return $http.post("/Prjs", {title: newTitle});
+         return $http.post("/Prjs", {title: newTitle, type: newType});
       })
       .then(function() {
          return $http.get('/Prjs');
