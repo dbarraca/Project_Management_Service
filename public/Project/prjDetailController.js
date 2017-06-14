@@ -1,26 +1,16 @@
 app.controller('prjDetailController',
- ['$scope', '$state', '$stateParams', '$http', '$uibModal', 'notifyDlg',
- 'msgs',function($scope, $state, $stateParams, $http, $uibM, nDlg, msgs) {
+ ['$scope', '$state', '$stateParams', '$http', '$uibModal', 'notifyDlg', function($scope, $state, $stateParams, $http, $uibM, nDlg, ) {
    var prjId = $stateParams.prjId;
 
-//   $scope.msgs = msgs;
+//   $scope.skills = skls;
+   $scope.description = "dummyDescription in prjDetailController";
 
    $http.get("/Prjs/" + prjId)
    .then(function(rsp) {
+      console.log("rsp.data.title" + rsp.data.title);
       $scope.prjTitle = rsp.data.title;
+   })
+   .catch(function(err) {
+      nDlg.show($scope, JSON.stringify(err));
    });
-/*
-   $scope.newMsg = function() {
-      $http.post("/Prjs/" + prjId +"/Msgs", {content: $scope.newMsgContent})
-      .then(function() {
-         return $http.get("/Prjs/" + prjId +"/Msgs");
-      })
-      .then(function(rsp) {
-         $scope.msgs = rsp.data;
-
-      })
-      .catch(function(err) {
-         nDlg.show($scope, JSON.stringify(err));
-      });
-   };*/
 }]);

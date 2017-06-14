@@ -2,7 +2,7 @@ app.controller('prjOverviewController',
  ['$scope', '$state', '$http','$uibModal', 'notifyDlg', 'prjs',
  function($scope, $state, $http, $uibM, nDlg, prjs) {
    $scope.prjs = prjs;
-
+/*
    $scope.userId = 'test';
 
    $scope.delPrj = function(index) {
@@ -71,7 +71,7 @@ app.controller('prjOverviewController',
          templateUrl: 'Project/editPrjDlg.template.html',
          scope: $scope
       }).result
-      .then(function(newTitle, newType) {
+      .then(function(newTitle) {
          console.log("type " + newType);
          selectedTitle = newTitle;
          return $http.post("/Prjs", {title: newTitle, type: newType});
@@ -87,5 +87,5 @@ app.controller('prjOverviewController',
             nDlg.show($scope, "Another project already has title "
              + selectedTitle, "Error");
       });
-   };
+   };*/
 }]);
