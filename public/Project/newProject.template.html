@@ -13,14 +13,14 @@
           ng-model="project.title">
       </fieldset>
       <fieldset class="form-group">
-         <label>Type</label>   e.g. embedded systems, web development
+         <label>Type</label> e.g. embedded systems, web development
          <input type="text" class="form-control" placeholder="type"
           ng-model="project.type">
       </fieldset>
       <fieldset class="form-group">
          <label>Description</label>
-         <input type="text" class="form-control" placeholder="description"
-          ng-model="project.description">
+         <textarea type="text" class="form-control" placeholder="description"
+          ng-model="project.description"></textarea>
       </fieldset>
 
       <button type="submit" class="btn btn-primary" ng-click="newProj()"
