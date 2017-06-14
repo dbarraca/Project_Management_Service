@@ -36,13 +36,14 @@ app.directive('prjSummary', [function() {
          user: '@',
       },
       template: '<a  href="#" ui-sref="prjDetail({prjId: {{prj.id}}})">'
-       + '{{prj.title}} {{prj.lastMessage | date : "medium"}}</a>'
-       + '<button type="button" class="btn btn-default pull-right" '
+       + '{{prj.title}}</a>'
+ /*      + '<button type="button" class="btn btn-default pull-right" '
        + 'ng-show="user == prj.ownerId" ng-click="del($index)">'
        + '<span class="glyphicon glyphicon-trash"></span>'
        + '</button>'
        + '<button type="button" class="btn btn-default btn-sm pull-right" '
        + 'ng-show="user == prj.ownerId" ng-click="edit($index)">'
-       + '<span class="glyphicon glyphicon-edit"></span>'
+       + '<span class="glyphicon glyphicon-edit"></span></button>'*/
+       + '<div>{{prj.type}}</div>'
    };
 }]);

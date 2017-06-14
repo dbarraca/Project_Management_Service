@@ -64,15 +64,13 @@ app.delete('/DB', function(req, res) {
          };
       }));
 
-console.log("right before delete");
       // Callback to reinsert admin user
       cbs.push(function(cb) {
-console.log("wedelete");
          req.cnn.query('INSERT INTO User (firstName, lastName, email,' +
              ' password, phoneNum, role) VALUES ' +
              '("Joe", "Admin", "adm@11.com", "password", "1111111111", 1);', cb);
       });
-console.log("right after delete");
+
       // Callback to clear sessions, release connection and return result
       cbs.push(function(callback){
          for (var session in Session.sessions)

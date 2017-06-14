@@ -1,8 +1,9 @@
 app.controller('registerController',
  ['$scope', '$state', '$http', 'notifyDlg', 'login',
  function($scope, $state, $http, nDlg, login) {
-   $scope.user = {role: 0, phoneNum: "1111111111"};
+   $scope.user = {role: 0};
    $scope.errors = [];
+   $scope.termsAccepted = false;
 
    $scope.registerUser = function() {
       $http.post("/Usrs", $scope.user)

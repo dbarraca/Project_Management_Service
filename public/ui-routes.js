@@ -25,7 +25,8 @@ app.config(['$stateProvider', '$urlRouterProvider',
          url: '/logout',
          templateUrl: 'Home/home.template.html',
          controller: 'logoutController',
-      })/*
+      })
+
       .state('prjOverview', {
          url: '/prjs',
          templateUrl: 'Project/prjOverview.template.html',
@@ -38,7 +39,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
                });
             }]
          }
-      })
+      })/*
       .state('myPrjOverview', {
          url: '/myPrjs/:ownerId',
          templateUrl: 'Project/prjOverview.template.html',
@@ -53,20 +54,34 @@ app.config(['$stateProvider', '$urlRouterProvider',
             }]
          }
       })*/
-/*      .state('prjDetail', {
+      .state('prjDetail', {
          url: '/prjs/:prjId',
          templateUrl: 'Project/prjDetail.template.html',
-         controller: 'prjDetailController',
-         resolve: {
-            msgs: ['$q', '$http', '$stateParams',
+         controller: 'prjDetailController'
+        /* resolve: {
+            skls: ['$q', '$http', '$stateParams',
              function($q, $http, $stateParams) {
-               return $http.get('/Prjs/'+ $stateParams.prjId + '/Msgs')
+               /*return $http.get("/Prjs/" + prjId + "/skls/")
                .then(function(response) {
                   return response.data;
-               });
+               })
+//               return new Array({id:12});
+            }],
+            
+            description: [
+            '$q', '$http', '$stateParams',
+             function($q, $http, $stateParams) {
+               return $http.get("/Prjs/" + prjId)
+               .then(function(response) {
+                  return response.data;
+               })
             }]
-         }
-      }
-      )*/;
+         }*/
+      })
+      .state('newProject', {
+         url: '/new_project',
+         templateUrl: 'Project/newProject.template.html',
+         controller: 'newProjectController',
+      });
 
    }]);

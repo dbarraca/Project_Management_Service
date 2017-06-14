@@ -30,7 +30,6 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-  console.log("post usr");
    var vld = req.validator;  // Shorthands
    var body = req.body;
    var admin = req.session && req.session.isAdmin();
@@ -51,9 +50,12 @@ router.post('/', function(req, res) {
       }
    },
    function(existingUsrs, fields, cb) {
-      cnn.chkQry('insert into User set ?', body, cb);
+      if (vld.check(!existingUsrs.length, Tags.dupEmail, null, cb)) {
+         cnn.chkQry('insert into User set ?', body, cb);
+      }
    },
    function(result, fields, cb) {
+      console.log("setting location");
       res.location(router.baseURL + '/' + result.insertId).end();
       cb();
    }],

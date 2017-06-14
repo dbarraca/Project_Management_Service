@@ -23,6 +23,11 @@
           ng-model="user.lastName">
       </fieldset>
       <fieldset class="form-group">
+         <label>Phone Number</label>
+         <input type="text" class="form-control" placeholder="Phone Number"
+          ng-model="user.phoneNum">
+      </fieldset>
+      <fieldset class="form-group">
          <label>Password</label>
          <input type="password" class="form-control" placeholder="Password"
           ng-model="user.password">
@@ -35,13 +40,13 @@
       </fieldset>
       <div class="checkbox">
         <label>
-           <input type="checkbox" ng-model="user.termsAccepted">
+           <input type="checkbox" ng-model="termsAccepted">
             Do you accept the terms and conditions?
         </label>
      </div>
 
       <button type="submit" class="btn btn-primary" ng-click="registerUser()"
-      ng-disabled="!user.email || !user.password || !confPass || (!!user.password && user.password !== confPass) || !user.termsAccepted">
+      ng-disabled="!user.email || !user.password || !confPass || (!!user.password && user.password !== confPass) || !termsAccepted">
          Submit
       </button>
       <button type="button" class="btn btn-warning" ng-click="quit()">Cancel</button>
