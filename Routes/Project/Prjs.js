@@ -17,9 +17,22 @@ router.get('/', function(req, res) {
       req.cnn.release();
    }
 
-   if (req.query.owner) {
-      req.cnn.chkQry('select * from Project where ownerId = ?', 
-       [req.query.owner.toString()], handler);
+   if (req.query.user && !req.query.skill) {
+      req.cnn.chkQry('select pr.id, pr.ownerId, pr.title, pr.level, pr.type, ' +
+        'pr.description from Participation p join Project pr on p.prjId=pr.id' +
+        ' where p.usrId=?', [req.query.user], handler);
+   }
+   else if (!req.query.user && req.query.skill) {
+      req.cnn.chkQry('select pr.id, pr.ownerId, pr.title, pr.level, pr.type, ' +
+       'pr.description from Participation p join Project pr on p.prjId=pr.id ' +
+       'join ProjectSkills ps on ps.prjId=p.prjId where sklId=?', 
+       [req.query.skill], handler);
+   }
+   else if (req.query.user && req.query.skill) {
+      req.cnn.chkQry('select pr.id, pr.ownerId, pr.title, pr.level, pr.type, ' +
+       'pr.description from Participation p join Project pr on p.prjId=pr.id' +
+       ' join ProjectSkills ps on ps.prjId=p.prjId where sklId=? AND p.usrId=?',
+       [req.query.skill, req.query.user], handler);
    }
    else {
       req.cnn.chkQry('select * from Project', null, handler);
@@ -202,6 +215,27 @@ router.post('/:prjId/Usrs', function(req, res) {
       cb();
    }],
    function() {
+      cnn.release();
+   });
+});
+
+router.delete('/:prjId/Usrs/:usrId', function(req, res) {
+  var vld = req.validator;
+  var prjId = req.params.prjId;
+  var usrId = req.params.usrId;
+  var cnn = req.cnn;
+
+  async.waterfall([
+   function(cb) {
+      cnn.chkQry('select * from Participation where prjId = ?', [prjId], cb);
+   },
+   function(prjs, fields, cb) {
+      if (vld.check(prjs && prjs.length, Tags.notFound, null, cb))
+         cnn.chkQry('delete from Participation where usrId = ?', [usrId], cb);
+   }],
+   function(err) {
+      if (!err)
+         res.status(200).end();
       cnn.release();
    });
 });
