@@ -26,8 +26,8 @@ app.use(Session.router);
 // Check general login.  If OK, add Validator to |req| and continue processing,
 // otherwise respond immediately with 401 and noLogin error tag.
 app.use(function(req, res, next) {
-   console.log(req.path);
-   if (req.session || (req.method === 'POST' && (req.path === '/Usrs' || 
+   console.log(req.method + " " + req.path);
+   if (req.session || (req.method === 'POST' && (req.path === '/Usrs' ||
     req.path === '/Ssns'))) {
       req.validator = new Validator(req, res);
       next();
@@ -48,7 +48,7 @@ app.use('/Prjs', require('./Routes/Project/Prjs.js'));
 // Special debugging route for /DB DELETE.  Clears all table contents,
 //resets all auto_increment keys to start at 1, and reinserts one admin user.
 app.delete('/DB', function(req, res) {
-   if (req.validator.check(req.session && req.session.isAdmin(), 
+   if (req.validator.check(req.session && req.session.isAdmin(),
     Tags.noPermission)) {
       // Callbacks to clear tables
       var cbs = ["User", "Project", "Participation", "Skill", "ProjectSkills"].map(function(tblName) {
@@ -92,7 +92,7 @@ app.delete('/DB', function(req, res) {
 app.use(function(req, res, next) {
    console.log("testtest");
    res.status(500).end();
-   res.cnn.release();
+   req.cnn.release();
 });
 
 var argBeforePort;

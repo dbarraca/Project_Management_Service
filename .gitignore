@@ -1,3 +1,4 @@
 #gitignore files
 node_modules/*
 Database/Init.sql
+Routes/connection.json

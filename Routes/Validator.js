@@ -94,7 +94,7 @@ Validator.prototype.hasFields = function(obj, fieldList, cb) {
    var self = this;
 
    fieldList.forEach(function(name) {
-      self.chain(obj.hasOwnProperty(name), Validator.Tags.missingField, 
+      self.chain(obj.hasOwnProperty(name), Validator.Tags.missingField,
        [name]);
    });
 
@@ -106,7 +106,7 @@ Validator.prototype.hasFields = function(obj, fieldList, cb) {
 Validator.prototype.hasOnlyFields = function(obj, fieldList, cb) {
    var self = this;
       Object.keys(obj).forEach(function(name) {
-         self.chain(fieldList.indexOf(name.toString()) >= 0, 
+         self.chain(fieldList.indexOf(name.toString()) >= 0,
           Validator.Tags.forbiddenField, [name.toString()]);
       });
 
