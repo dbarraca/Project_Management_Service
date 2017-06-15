@@ -1,6 +1,6 @@
-drop database if exists gheald_final;
-create database gheald_final;
-use gheald_final;
+drop database if exists tihonda;
+create database tihonda;
+use tihonda;
 
 create table User (
    id int auto_increment primary key,

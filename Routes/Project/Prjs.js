@@ -52,10 +52,11 @@ router.post('/', function(req, res) {
    async.waterfall([
    function(cb) {
       if (vld.check(body.title && body.title.length > 0, Tags.missingField, 
-       ["title"], cb))
+       ["title"], cb)) {
          console.log("has title: " + body.title);
          cnn.chkQry('select * from Project where title = ?', 
           [body.title],cb);
+      }
    },
    function(existingPrj, fields, cb) {
     console.log("checking existing project");
@@ -64,15 +65,16 @@ router.post('/', function(req, res) {
        .chain(!existingPrj.length, Tags.dupTitle, ["title"])
        .check(body.title && parseInt(body.title.length) < 81, Tags.badValue, 
        ["title"], cb)) {
-         cnn.chkQry("insert into Project (title, ownerId, type, description) values (?, ?, ?, ?)", 
-          [body.title, req.session.id, body.type, body.description], cb);
+         cnn.chkQry("insert into Project (title, ownerId, type, description, level) values (?, ?, ?, ?, ?)", 
+          [body.title, req.session.id, body.type, body.description, body.level], cb);
          console.log("insert Project");
          console.log("body.title " + body.title);
          console.log("req.session.id " + req.session.id);
+         console.log("body.level" + body.level);
       }
    },
    function(insRes, fields, cb) {
-    console.log("setting locatoin");
+    console.log("setting location");
       res.location(router.baseURL + '/' + insRes.insertId).end();
       cb();
    }],
