@@ -3,6 +3,7 @@ app.controller('newProjectController',
  function($scope, $state, $http, nDlg, login) {
    $scope.project = {};
    $scope.errors = [];
+   
 
    $scope.newProj = function() {
       $http.post("/Prjs", $scope.project)

@@ -22,6 +22,15 @@
          <textarea type="text" class="form-control" placeholder="description"
           ng-model="project.description"></textarea>
       </fieldset>
+      <fieldset class="form-group">
+         <label>Level</label>
+         <select class="form-group" ng-model="project.level">
+           <option value="1">Freshmen</option>
+           <option value="2">Sophomore</option>
+           <option value="3">Junior</option>
+           <option value="4">Senior+</option>
+         </select>
+      </fieldset>
 
       <button type="submit" class="btn btn-primary" ng-click="newProj()"
       ng-disabled="!project.title || !project.type">

@@ -44,6 +44,6 @@ app.directive('prjSummary', [function() {
        + '<button type="button" class="btn btn-default btn-sm pull-right" '
        + 'ng-show="user == prj.ownerId" ng-click="edit($index)">'
        + '<span class="glyphicon glyphicon-edit"></span></button>'*/
-       + '<div>{{prj.type}}</div>'
+       + '<div>{{prj.type}}</div> <div>Recommended Difficulty: {{prj.level}}</div>'
    };
 }]);
