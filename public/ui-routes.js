@@ -39,21 +39,22 @@ app.config(['$stateProvider', '$urlRouterProvider',
                });
             }]
          }
-      })/*
+      })
       .state('myPrjOverview', {
          url: '/myPrjs/:ownerId',
-         templateUrl: 'Project/prjOverview.template.html',
+         templateUrl: 'Project/myPrjOverview.template.html',
          controller: 'myPrjOverviewController',
          resolve: {
             prjs: ['$q', '$http', '$stateParams', 
              function($q, $http, $stateParams) {
-               return $http.get('/Prjs?owner=' + $stateParams.ownerId)
+               console.log($stateParams.ownerId);
+               return $http.get('/Prjs?user=' + $stateParams.ownerId)
                .then(function(response) {
                   return response.data;
                });
             }]
          }
-      })*/
+      })
       .state('prjDetail', {
          url: '/prjs/:prjId',
          templateUrl: 'Project/prjDetail.template.html',
