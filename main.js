@@ -44,6 +44,7 @@ app.use(CnnPool.router);
 app.use('/Usrs', require('./Routes/Account/Usrs.js'));
 app.use('/Ssns', require('./Routes/Account/Ssns.js'));
 app.use('/Prjs', require('./Routes/Project/Prjs.js'));
+app.use('/Skls', require('./Routes/Project/Skls.js'));
 
 // Special debugging route for /DB DELETE.  Clears all table contents,
 //resets all auto_increment keys to start at 1, and reinserts one admin user.
@@ -90,7 +91,6 @@ app.delete('/DB', function(req, res) {
 
 // Handler of last resort.  Print a stacktrace to console and send a 500 response.
 app.use(function(req, res, next) {
-   console.log("testtest");
    res.status(500).end();
    req.cnn.release();
 });

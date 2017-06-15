@@ -131,4 +131,33 @@ router.delete('/:prjId', function(req, res) {
    });
 });
 
+router.get('/:prjId/Skls', function(req, res) {
+   var vld = req.validator;
+   var prjId = req.params.prjId;
+   var cnn = req.cnn;
+
+   console.log("trying to get skills of a project");
+
+   async.waterfall([
+   function(cb) {
+     if(vld.check(req.session, Tags.noLogin))
+        cnn.chkQry('select * from Project where id = ?', [prjId], cb);
+   },
+   function(prjs, fields, cb) {
+      if (vld.chain(prjs && prjs[0], Tags.notFound)
+       .check(req.session, Tags.noLogin)) {
+         cnn.chkQry('select * from ProjectSkills where prjId = ?', [prjId], cb);
+         //res.json(prjs[0]);
+      }
+   },
+   function(prjSkls, fields, cb) {
+      res.json(prjSkls);
+   }],
+   function(err) {
+      if (!err)
+         res.status(200).end();
+      cnn.release();
+   });
+});
+
 module.exports = router;

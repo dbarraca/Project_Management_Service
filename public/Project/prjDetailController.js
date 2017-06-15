@@ -11,15 +11,27 @@ app.controller('prjDetailController',
       $scope.type = rsp.data.type;
       $scope.description = rsp.data.description;
    })
+/*   .then(function(rsp) {
+      return [{id:1}, {id:2}];
+   })
+   .then(function(sklIds) {
+      var sklArr = [];
+      console.log("sklIds.length" + sklIds.length);
+      /*
+      for(var i = 0; i < sklIds.length; i++) {
+         console.log("sklId: " + sklIds[i].id);
+         sklArr.push(sklIds[i].id);
+         console.log($http.get("/Skls/", {sklId: sklIds[0].id}).data.name);
+      }
+      return sklArr;
+   })
+*/
    .then(function(rsp) {
-      $scope.skills = [{id:1}, {id:2}];
-/*
-   .then(function(rsp) {
-      return $http.get("/Prjs/" + prjId + "/skls/");
+      return $http.get("/Prjs/" + prjId + "/Skls/");
    })
    .then(function(rsp) {
-      $scope.skills = rsp;
-   })*/
+      console.log("rsp.data[0].sklId " + rsp.data[0].sklId);
+      console.log("rsp.data[0].sklId " + rsp.data[1].sklId);
    })
    .catch(function(err) {
       nDlg.show($scope, JSON.stringify(err));
