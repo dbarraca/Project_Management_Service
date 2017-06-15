@@ -67,6 +67,7 @@ router.post('/', function(req, res) {
        ["title"], cb)) {
          cnn.chkQry("insert into Project (title, ownerId, type, description, level) values (?, ?, ?, ?, ?)", 
           [body.title, req.session.id, body.type, body.description, body.level], cb);
+         
          console.log("insert Project");
          console.log("body.title " + body.title);
          console.log("req.session.id " + req.session.id);
@@ -76,7 +77,7 @@ router.post('/', function(req, res) {
    function(insRes, fields, cb) {
     console.log("setting location");
       res.location(router.baseURL + '/' + insRes.insertId).end();
-      cb();
+      cnn.chkQry("insert into Participation (usrId, prjId) values(?, ?)", [req.session.id, insRes.insertId], cb);
    }],
    function() {
       cnn.release();
@@ -156,6 +157,51 @@ router.get('/:prjId/Skls', function(req, res) {
    function(err) {
       if (!err)
          res.status(200).end();
+      cnn.release();
+   });
+});
+
+router.get('/:prjId/Usrs', function(req, res) {
+  var vld = req.validator;
+  var prjId = req.params.prjId;
+  var cnn = req.cnn;
+
+  var handler = function(err, usrs) {
+      if (vld.chain(usrs, Tags.notFound)
+       .check(req.session, Tags.noLogin) && !err) {
+         res.json(usrs);
+      }
+      req.cnn.release();
+   }
+
+   if(vld.check(req.session, Tags.noLogin))
+      cnn.chkQry('select usrId from Participation where prjId = ?', [prjId], handler);
+}); 
+
+// needs error checking 
+router.post('/:prjId/Usrs', function(req, res) {
+  var vld = req.validator;
+  var prjId = req.params.prjId;
+  var cnn = req.cnn;
+  var body = req.body;
+
+  async.waterfall([
+   function(cb) {
+      cnn.chkQry('select id from User where email = ?', 
+        [body.email],cb);
+   },
+   function(userId, fields, cb) {
+      console.log(userId);
+         cnn.chkQry("insert into Participation (usrId, prjId) values (?, ?)", 
+          [userId[0].id, prjId], cb);
+      
+   },
+   function(insRes, fields, cb) {
+    console.log("setting location");
+      res.location(router.baseURL + '/' + insRes.insertId).end();
+      cb();
+   }],
+   function() {
       cnn.release();
    });
 });
