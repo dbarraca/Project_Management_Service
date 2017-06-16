@@ -91,6 +91,7 @@ app.delete('/DB', function(req, res) {
 
 // Handler of last resort.  Print a stacktrace to console and send a 500 response.
 app.use(function(req, res, next) {
+   console.log("testtest");
    res.status(500).end();
    req.cnn.release();
 });

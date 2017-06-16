@@ -1,10 +1,13 @@
-<h2>{{title}}</h2>
-<h3>{{type}}</h3>
-
+<h1>{{title}}</h1>
+<br/>
+<h4>Type: {{type}}</h4>
+<h4>Description:</h4>
+<p>{{description}}</p>
+<br/>
+<h4>Skill Requirements:</h4>
 <div class="list-group">
    <div class="list-group-item" ng-repeat="skill in skills">
-      Skill Id {{skill.id}}
+      {{skill}}
    </div>
 </div>
 
-<p>{{description}}</p>

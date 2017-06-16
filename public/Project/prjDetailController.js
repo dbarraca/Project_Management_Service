@@ -4,6 +4,7 @@ app.controller('prjDetailController',
 //   $scope.skills = skls;
    //$scope.description = "dummyDescription in prjDetailController";
 
+
    $http.get("/Prjs/" + prjId)
    .then(function(rsp) {
       console.log("rsp.data.title" + rsp.data.title);
@@ -11,29 +12,28 @@ app.controller('prjDetailController',
       $scope.type = rsp.data.type;
       $scope.description = rsp.data.description;
    })
-/*   .then(function(rsp) {
-      return [{id:1}, {id:2}];
-   })
-   .then(function(sklIds) {
-      var sklArr = [];
-      console.log("sklIds.length" + sklIds.length);
-      /*
-      for(var i = 0; i < sklIds.length; i++) {
-         console.log("sklId: " + sklIds[i].id);
-         sklArr.push(sklIds[i].id);
-         console.log($http.get("/Skls/", {sklId: sklIds[0].id}).data.name);
-      }
-      return sklArr;
-   })
-*/
-   .then(function(rsp) {
+   .then(function() {
       return $http.get("/Prjs/" + prjId + "/Skls/");
    })
-   .then(function(rsp) {
-      console.log("rsp.data[0].sklId " + rsp.data[0].sklId);
-      console.log("rsp.data[0].sklId " + rsp.data[1].sklId);
+   .then(function(sklIds) {
+//console.log("sklIds.data[0] " + sklIds.data[0].sklId);
+//console.log("sklIds.length " + sklIds.data.length);
+
+      var sklArr = [];
+
+      for(var i = 0; i < sklIds.data.length; i++) {
+//console.log("one time in the loop");
+//console.log("sklIds.data[i].sklId " + sklIds.data[i].sklId);
+         $http.get("/Skls?sklId=" + sklIds.data[i].sklId)
+         .then(function(rsp) {
+//console.log("skill Name: " + rsp.data[0].name);
+            sklArr.push(rsp.data[0].name);
+         });
+         $scope.skills = sklArr;
+      }
    })
    .catch(function(err) {
       nDlg.show($scope, JSON.stringify(err));
    });
 }]);
+
