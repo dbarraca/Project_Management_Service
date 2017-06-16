@@ -153,13 +153,16 @@ router.post('/:prjId/Skls', function(req, res) {
    var cnn = req.cnn;
    var body = req.body;
 
+   console.log("body.sklId " + body.sklId);
+   console.log("prjId " + prjId);
+
    async.waterfall([
    function(cb) {
       cnn.chkQry('select id from Project where id = ?',
         [prjId],cb);
    },
-   function(prjId, fields, cb) {
-       console.log(prjId);
+   function(prj, fields, cb) {
+       console.log("prjId" + prjId);
        cnn.chkQry("insert into ProjectSkills (sklId, prjId) values (?, ?)",
         [body.sklId, prjId], cb);
    },

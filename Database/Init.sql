@@ -31,7 +31,7 @@ create table Skill (
 );
 
 create table ProjectSkills (
-   prjId int primary key,
+   prjId int not null,
    sklId int not null,
    constraint FKProjectSkill_prjId foreign key (prjId) references Project(id)
     on delete cascade,

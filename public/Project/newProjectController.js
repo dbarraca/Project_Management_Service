@@ -25,18 +25,18 @@ app.controller('newProjectController',
          $scope.errors = err.data;
       });
 
-      console.log(Object.keys($scope.checkedSkills).length);
-/*$http.get("/Skls?name=" + "node")
-.then(function(rsp) {
-   console.log("rsp.data[0].id " + rsp.data[0].id);
-})*/
+      var newPrjId;
 
+      $http.get("/Prjs")
+      .then(function(rsp) {
+         newPrjId = rsp.data.length;
+      });
 
       for (var i = 0; i < Object.keys($scope.checkedSkills).length; i++) {
          console.log("added skill" + Object.keys($scope.checkedSkills)[i]);
          $http.get("/Skls?name=" + Object.keys($scope.checkedSkills)[i])
          .then(function(rsp) {
-            $http.post("Prjs/" + 16 +"/Skls", {sklId: rsp.data[0].id});
+            $http.post("Prjs/" + newPrjId +"/Skls", {sklId: rsp.data[0].id});
          });
       };
    };
