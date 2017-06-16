@@ -1,16 +1,7 @@
-<!-- <h2>{{title}}</h2>
-<h3>{{type}}</h3>
-
-<div class="list-group">
-   <div class="list-group-item" ng-repeat="skill in skills">
-      Skill Id {{skill.id}}
-   </div>
-</div>
-
-<p>{{description}}</p> -->
 <h1>{{title}}</h1>
 <br/>
 <h4>Type: {{type}}</h4>
+<br/>
 <h4>Description:</h4>
 <p>{{description}}</p>
 <br/>
@@ -18,6 +9,21 @@
 <div class="list-group">
    <div class="list-group-item" ng-repeat="skill in skills">
       {{skill}}
+   </div>
+</div>
+
+<br/>
+
+<h4>Project Participants:</h4>
+
+<div class="list-group">
+   <div class="list-group-item" ng-repeat="usr in linkedUsers">
+      {{usr.firstName}} {{usr.lastName}}
+      &ensp;-&ensp;
+      {{usr.email}}
+      &ensp;-&ensp;
+      {{usr.phoneNum}}
+      <span ng-if="usr.id == prjOwner">&ensp;&ensp;(Owner)</span>
    </div>
 </div>
 
