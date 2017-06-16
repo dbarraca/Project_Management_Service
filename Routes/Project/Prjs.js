@@ -15,7 +15,7 @@ router.get('/', function(req, res) {
          res.json(prjs);
       }
       req.cnn.release();
-   }
+   };
 
    if (req.query.user && !req.query.skill) {
       req.cnn.chkQry('select pr.id, pr.ownerId, pr.title, pr.level, pr.type, ' +
@@ -25,7 +25,7 @@ router.get('/', function(req, res) {
    else if (!req.query.user && req.query.skill) {
       req.cnn.chkQry('select pr.id, pr.ownerId, pr.title, pr.level, pr.type, ' +
        'pr.description from Participation p join Project pr on p.prjId=pr.id ' +
-       'join ProjectSkills ps on ps.prjId=p.prjId where sklId=?', 
+       'join ProjectSkills ps on ps.prjId=p.prjId where sklId=?',
        [req.query.skill], handler);
    }
    else if (req.query.user && req.query.skill) {
@@ -50,7 +50,7 @@ router.get('/:prjId', function(req, res) {
          res.json(prjs[0]);
       }
       req.cnn.release();
-   }
+   };
 
    if(vld.check(req.session, Tags.noLogin))
       cnn.chkQry('select * from Project where id = ?', [prjId], handler);
@@ -64,23 +64,23 @@ router.post('/', function(req, res) {
 
    async.waterfall([
    function(cb) {
-      if (vld.check(body.title && body.title.length > 0, Tags.missingField, 
+      if (vld.check(body.title && body.title.length > 0, Tags.missingField,
        ["title"], cb)) {
          console.log("has title: " + body.title);
-         cnn.chkQry('select * from Project where title = ?', 
+         cnn.chkQry('select * from Project where title = ?',
           [body.title],cb);
       }
    },
    function(existingPrj, fields, cb) {
     console.log("checking existing project");
-      if (vld.chain(body.title && body.title.length > 0, Tags.missingField, 
+      if (vld.chain(body.title && body.title.length > 0, Tags.missingField,
        ["title"])
        .chain(!existingPrj.length, Tags.dupTitle, ["title"])
-       .check(body.title && parseInt(body.title.length) < 81, Tags.badValue, 
+       .check(body.title && parseInt(body.title.length) < 81, Tags.badValue,
        ["title"], cb)) {
-         cnn.chkQry("insert into Project (title, ownerId, type, description, level) values (?, ?, ?, ?, ?)", 
+         cnn.chkQry("insert into Project (title, ownerId, type, description, level) values (?, ?, ?, ?, ?)",
           [body.title, req.session.id, body.type, body.description, body.level], cb);
-         
+
          console.log("insert Project");
          console.log("body.title " + body.title);
          console.log("req.session.id " + req.session.id);
@@ -187,9 +187,9 @@ router.get('/:prjId/Usrs', function(req, res) {
 
    if(vld.check(req.session, Tags.noLogin))
       cnn.chkQry('select usrId from Participation where prjId = ?', [prjId], handler);
-}); 
+});
 
-// needs error checking 
+// needs error checking
 router.post('/:prjId/Usrs', function(req, res) {
   var vld = req.validator;
   var prjId = req.params.prjId;
@@ -198,14 +198,14 @@ router.post('/:prjId/Usrs', function(req, res) {
 
   async.waterfall([
    function(cb) {
-      cnn.chkQry('select id from User where email = ?', 
+      cnn.chkQry('select id from User where email = ?',
         [body.email],cb);
    },
    function(userId, fields, cb) {
       console.log(userId);
-         cnn.chkQry("insert into Participation (usrId, prjId) values (?, ?)", 
+         cnn.chkQry("insert into Participation (usrId, prjId) values (?, ?)",
           [userId[0].id, prjId], cb);
-      
+
    },
    function(insRes, fields, cb) {
     console.log("setting location");
