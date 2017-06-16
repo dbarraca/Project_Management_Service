@@ -3,7 +3,18 @@ app.controller('newProjectController',
  function($scope, $state, $http, nDlg, login) {
    $scope.project = {};
    $scope.errors = [];
-   
+   $scope.checkedSkills = []
+
+   $http.get("/Skls")
+   .then(function(rsp) {
+      var sklArr = [];
+
+      for (var i = 0; i < rsp.data.length; i++) {
+         sklArr.push(rsp.data[i].name);
+      };
+
+      $scope.skills = sklArr;
+   });
 
    $scope.newProj = function() {
       $http.post("/Prjs", $scope.project)
@@ -13,6 +24,21 @@ app.controller('newProjectController',
       .catch(function(err) {
          $scope.errors = err.data;
       });
+
+      console.log(Object.keys($scope.checkedSkills).length);
+/*$http.get("/Skls?name=" + "node")
+.then(function(rsp) {
+   console.log("rsp.data[0].id " + rsp.data[0].id);
+})*/
+
+
+      for (var i = 0; i < Object.keys($scope.checkedSkills).length; i++) {
+         console.log("added skill" + Object.keys($scope.checkedSkills)[i]);
+         $http.get("/Skls?name=" + Object.keys($scope.checkedSkills)[i])
+         .then(function(rsp) {
+            $http.post("Prjs/" + 16 +"/Skls", {sklId: rsp.data[0].id});
+         });
+      };
    };
 
    $scope.quit = function() {

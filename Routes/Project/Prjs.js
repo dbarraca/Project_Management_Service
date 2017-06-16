@@ -145,6 +145,34 @@ router.delete('/:prjId', function(req, res) {
    });
 });
 
+router.post('/:prjId/Skls', function(req, res) {
+   console.log("got to the route");
+
+   var vld = req.validator;
+   var prjId = req.params.prjId;
+   var cnn = req.cnn;
+   var body = req.body;
+
+   async.waterfall([
+   function(cb) {
+      cnn.chkQry('select id from Project where id = ?',
+        [prjId],cb);
+   },
+   function(prjId, fields, cb) {
+       console.log(prjId);
+       cnn.chkQry("insert into ProjectSkills (sklId, prjId) values (?, ?)",
+        [body.sklId, prjId], cb);
+   },
+   function(insRes, fields, cb) {
+      console.log("setting location");
+      res.location(router.baseURL + '/' + insRes.insertId).end();
+      cb();
+   }],
+   function() {
+      cnn.release();
+   });
+});
+
 router.get('/:prjId/Skls', function(req, res) {
    var vld = req.validator;
    var prjId = req.params.prjId;
@@ -152,7 +180,7 @@ router.get('/:prjId/Skls', function(req, res) {
 
    async.waterfall([
    function(cb) {
-     if(vld.check(req.session, Tags.noLogin))
+     if(vld.check(req.session, Tags.noLoogin))
         cnn.chkQry('select * from Project where id = ?', [prjId], cb);
    },
    function(prjs, fields, cb) {

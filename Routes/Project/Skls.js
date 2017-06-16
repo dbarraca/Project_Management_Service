@@ -21,18 +21,45 @@ router.get('/', function(req, res) {
       req.cnn.chkQry('select name from Skill where id = ?',
        [req.query.sklId], handler);
    }
+   else if (req.query.name) {
+      req.cnn.chkQry('select id from Skill where name = ?',
+       [req.query.name], handler);
+   }
    else {
       req.cnn.chkQry('select name from Skill',
        [], handler);
    }
 });
-
+/*
 router.post('/', function(req, res) {
    var vld = req.validator;
    var body = req.body;
    var cnn = req.cnn;
 
    console.log("trying to post skill");
-});
 
+   async.waterfall([
+/*
+   function(cb) {
+      if (vld.hasFields(body, ["sklId", "prjId"], cb)) {
+         cnn.chkQry('select * from Skill where skilId = ? and prjId', [body.sklId], cb);
+      }
+   },
+   function(existingUsrs, fields, cb) {
+      cnn.chkQry('insert into ProjectSkill set ?', body, cb);
+   },
+
+   function(cb) {
+      cnn.chkQry('insert into ProjectSkill set ?', body, cb);
+   },
+   function(result, fields, cb) {
+      console.log("setting location");
+      res.location(router.baseURL + '/' + result.insertId).end();
+      cb();
+   }],
+   function() {
+      cnn.release();
+   });
+});
+*/
 module.exports = router;

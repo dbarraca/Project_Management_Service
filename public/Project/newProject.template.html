@@ -32,6 +32,12 @@
          </select>
       </fieldset>
 
+      <div ng-repeat="skill in skills">
+      <input type="checkbox" name="{{skill}}" value="{{skill}}" ng-model="checkedSkills[skill]">
+      {{skill}}
+      </div>
+      <br>
+
       <button type="submit" class="btn btn-primary" ng-click="newProj()"
       ng-disabled="!project.title || !project.type || !project.description">
          Submit

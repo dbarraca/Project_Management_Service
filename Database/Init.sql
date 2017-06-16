@@ -1,6 +1,6 @@
-drop database if exists tihonda;
-create database tihonda;
-use tihonda;
+drop database if exists dbarraca;
+create database dbarraca;
+use dbarraca;
 
 create table User (
    id int auto_increment primary key,
