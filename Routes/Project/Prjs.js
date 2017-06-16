@@ -152,7 +152,7 @@ router.get('/:prjId/Skls', function(req, res) {
 
    async.waterfall([
    function(cb) {
-     if(vld.check(req.session, Tags.noLogin))
+     if(vld.check(req.session, Tags.noLoogin))
         cnn.chkQry('select * from Project where id = ?', [prjId], cb);
    },
    function(prjs, fields, cb) {
