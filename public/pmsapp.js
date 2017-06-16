@@ -3,7 +3,7 @@ var app = angular.module('mainApp', [
    'ui.router',
    'ui.bootstrap'
 ]);
-/*
+
 app.constant("errMap", {
    missingField: 'Field missing from request: ',
    badValue: 'Field has bad value: ',
@@ -19,12 +19,12 @@ app.constant("errMap", {
    forbiddenField: 'Field in body not allowed.',
    queryFailed: 'Query failed (server problem).'
 });
-*/
 
-app.filter('tagError', ['errMap', '$rootScope', function(errMap, $rootScope) {
+
+app.filter('tagError', ['errMap', '$rootScope', function(errMap) {
    return function(err) {
-      return $rootScope.langs[$rootScope.currLang] + errMap[err.tag] 
-       + (err.params && err.params.length ? err.params[0] : "");
+      return errMap[err.tag] +
+       (err.params && err.params.length ? err.params[0] : "");
    };
 }]);
 
@@ -34,16 +34,19 @@ app.directive('prjSummary', [function() {
       scope: {
          prj: "=toSummarize",
          user: '@',
+         delprj: "&",
+         editprj: "&"
       },
       template: '<a  href="#" ui-sref="prjDetail({prjId: {{prj.id}}})">'
        + '{{prj.title}}</a>'
- /*      + '<button type="button" class="btn btn-default pull-right" '
-       + 'ng-show="user == prj.ownerId" ng-click="del($index)">'
+       + '<button type="button" class="btn btn-default pull-right" '
+       + 'ng-show="user == prj.ownerId" ng-click="delprj()">'
        + '<span class="glyphicon glyphicon-trash"></span>'
        + '</button>'
        + '<button type="button" class="btn btn-default btn-sm pull-right" '
-       + 'ng-show="user == prj.ownerId" ng-click="edit($index)">'
-       + '<span class="glyphicon glyphicon-edit"></span></button>'*/
-       + '<div>{{prj.type}}</div> <div>Recommended Difficulty: {{prj.level}}</div>'
+       + 'ng-show="user == prj.ownerId" ng-click="editprj()">'
+       + '<span class="glyphicon glyphicon-edit"></span></button>'
+       + '<div>{{prj.type}}</div> <div>Recommended Difficulty: {{prj.level}}'
+       + '</div>'
    };
 }]);

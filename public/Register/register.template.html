@@ -46,9 +46,12 @@
      </div>
 
       <button type="submit" class="btn btn-primary" ng-click="registerUser()"
-      ng-disabled="!user.email || !user.password || !confPass || (!!user.password && user.password !== confPass) || !termsAccepted">
+      ng-disabled="!user.email || !user.password || !confPass ||
+      (!!user.password && user.password !== confPass) || !termsAccepted">
          Submit
       </button>
-      <button type="button" class="btn btn-warning" ng-click="quit()">Cancel</button>
+      <button type="button" class="btn btn-warning" ng-click="quit()">
+         Cancel
+      </button>
    </form>
 </div>

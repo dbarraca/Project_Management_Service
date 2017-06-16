@@ -33,7 +33,8 @@
       </fieldset>
 
       <div ng-repeat="skill in skills">
-      <input type="checkbox" name="{{skill}}" value="{{skill}}" ng-model="checkedSkills[skill]">
+      <input type="checkbox" name="{{skill}}" value="{{skill}}"
+       ng-model="checkedSkills[skill]">
       {{skill}}
       </div>
       <br>
@@ -42,6 +43,8 @@
       ng-disabled="!project.title || !project.type || !project.description">
          Submit
       </button>
-      <button type="button" class="btn btn-warning" ng-click="quit()">Cancel</button>
+      <button type="button" class="btn btn-warning" ng-click="quit()">
+         Cancel
+      </button>
    </form>
 </div>

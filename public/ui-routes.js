@@ -58,25 +58,6 @@ app.config(['$stateProvider', '$urlRouterProvider',
          url: '/prjs/:prjId',
          templateUrl: 'Project/prjDetail.template.html',
          controller: 'prjDetailController'
-        /* resolve: {
-            skls: ['$q', '$http', '$stateParams',
-             function($q, $http, $stateParams) {
-               /*return $http.get("/Prjs/" + prjId + "/skls/")
-               .then(function(response) {
-                  return response.data;
-               })
-//               return new Array({id:12});
-            }],
-
-            description: [
-            '$q', '$http', '$stateParams',
-             function($q, $http, $stateParams) {
-               return $http.get("/Prjs/" + prjId)
-               .then(function(response) {
-                  return response.data;
-               })
-            }]
-         }*/
       })
       .state('newProject', {
          url: '/new_project',

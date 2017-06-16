@@ -52,14 +52,16 @@ app.delete('/DB', function(req, res) {
    if (req.validator.check(req.session && req.session.isAdmin(),
     Tags.noPermission)) {
       // Callbacks to clear tables
-      var cbs = ["User", "Project", "Participation", "Skill", "ProjectSkills"].map(function(tblName) {
+      var cbs = ["User", "Project", "Participation", "Skill",
+       "ProjectSkills"].map(function(tblName) {
          return function(cb) {
             req.cnn.query("delete from " + tblName, cb);
          };
       });
 
       // Callbacks to reset increment bases
-      cbs = cbs.concat(["User", "Project", "Participation", "Skill", "ProjectSkills"].map(function(tblName) {
+      cbs = cbs.concat(["User", "Project", "Participation", "Skill",
+       "ProjectSkills"].map(function(tblName) {
          return function(cb) {
             req.cnn.query("alter table " + tblName + " auto_increment = 1", cb);
          };
@@ -71,11 +73,11 @@ app.delete('/DB', function(req, res) {
              ' password, phoneNum, role) VALUES ' +
              '("Joe", "Admin", "adm@11.com", "password", "1111111111", 1);');
          req.cnn.query('INSERT INTO Skill (name)' +
-             'VALUES ("html");'); 
+             'VALUES ("html");');
          req.cnn.query('INSERT INTO Skill (name)' +
              'VALUES ("css");');
          req.cnn.query('INSERT INTO Skill (name)' +
-             'VALUES ("c++");');
+             'VALUES ("javascript");');
          req.cnn.query('INSERT INTO Skill (name)' +
              'VALUES ("c");');
          req.cnn.query('INSERT INTO Skill (name)' +

@@ -55,7 +55,6 @@ router.post('/', function(req, res) {
       }
    },
    function(result, fields, cb) {
-      console.log("setting location");
       res.location(router.baseURL + '/' + result.insertId).end();
       cb();
    }],
@@ -70,8 +69,8 @@ router.get('/:id', function(req, res) {
    if (vld.chain(req.session && req.session.id && req.session.isAdmin() ||
     (req.params.id && parseInt(req.params.id) > 0), Tags.noLogin)
     .checkUsrOK(req.params.id)) {
-      req.cnn.chkQry('select email, id, firstName, lastName, phoneNum,'
-       + ' role from User where id = ?', [req.params.id],
+      req.cnn.chkQry('select email, id, firstName, lastName, phoneNum,' +
+       ' role from User where id = ?', [req.params.id],
        function(err, usrArr) {
 
           if (vld.chain(usrArr.length, Tags.notFound)
@@ -154,6 +153,6 @@ router.delete('/:id', function(req, res) {
         cnn.release();
   });
 
-})
+});
 
 module.exports = router;

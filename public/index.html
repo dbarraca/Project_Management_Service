@@ -7,7 +7,7 @@
 <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
 <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"></script>
- 
+
 <script src="pmsapp.js"></script>
 <link rel="stylesheet" href="pmsapp.css"></script>
 
@@ -44,8 +44,9 @@
          <li ng-if="!!user">
             <a ui-sref="logout" id="logout">Logout</a>
          </li>
-         <li ng-if="!!user" id="username">{{user.firstName + " " + user.lastName}}</li>
-      </ul>  
+         <li ng-if="!!user"
+          id="username">{{user.firstName + " " + user.lastName}}</li>
+      </ul>
    </nav>
    <ui-view/>
 </body>

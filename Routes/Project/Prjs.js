@@ -18,21 +18,20 @@ router.get('/', function(req, res) {
    };
 
    if (req.query.user && !req.query.skill) {
-      req.cnn.chkQry('select pr.id, pr.ownerId, pr.title, pr.level, pr.type, ' +
-        'pr.description from Participation p join Project pr on p.prjId=pr.id' +
-        ' where p.usrId=?', [req.query.user], handler);
+      req.cnn.chkQry('select pr.id, pr.ownerId, pr.title, pr.level,' +
+       ' pr.type, pr.description from Participation p join Project pr on' +
+       ' p.prjId=pr.id where p.usrId=?', [req.query.user], handler);
    }
    else if (!req.query.user && req.query.skill) {
-      req.cnn.chkQry('select pr.id, pr.ownerId, pr.title, pr.level, pr.type, ' +
-       'pr.description from Participation p join Project pr on p.prjId=pr.id ' +
-       'join ProjectSkills ps on ps.prjId=p.prjId where sklId=?',
-       [req.query.skill], handler);
+      req.cnn.chkQry('select pr.id, pr.ownerId, pr.title, pr.level, pr.type,' +
+       ' pr.description from Project pr join ProjectSkills ps on' +
+       ' pr.id=ps.prjId where sklId=?', [req.query.skill], handler);
    }
    else if (req.query.user && req.query.skill) {
-      req.cnn.chkQry('select pr.id, pr.ownerId, pr.title, pr.level, pr.type, ' +
-       'pr.description from Participation p join Project pr on p.prjId=pr.id' +
-       ' join ProjectSkills ps on ps.prjId=p.prjId where sklId=? AND p.usrId=?',
-       [req.query.skill, req.query.user], handler);
+      req.cnn.chkQry('select pr.id, pr.ownerId, pr.title, pr.level, pr.type,' +
+       ' pr.description from Participation p join Project pr on' +
+       ' p.prjId=pr.id join ProjectSkills ps on ps.prjId=p.prjId where' +
+       ' sklId=? AND p.usrId=?', [req.query.skill, req.query.user], handler);
    }
    else {
       req.cnn.chkQry('select * from Project', null, handler);
@@ -60,7 +59,6 @@ router.post('/', function(req, res) {
    var vld = req.validator;
    var body = req.body;
    var cnn = req.cnn;
-   console.log("went to posting prj");
 
    async.waterfall([
    function(cb) {
@@ -72,25 +70,20 @@ router.post('/', function(req, res) {
       }
    },
    function(existingPrj, fields, cb) {
-    console.log("checking existing project");
       if (vld.chain(body.title && body.title.length > 0, Tags.missingField,
        ["title"])
        .chain(!existingPrj.length, Tags.dupTitle, ["title"])
        .check(body.title && parseInt(body.title.length) < 81, Tags.badValue,
        ["title"], cb)) {
-         cnn.chkQry("insert into Project (title, ownerId, type, description, level) values (?, ?, ?, ?, ?)",
-          [body.title, req.session.id, body.type, body.description, body.level], cb);
-
-         console.log("insert Project");
-         console.log("body.title " + body.title);
-         console.log("req.session.id " + req.session.id);
-         console.log("body.level" + body.level);
+         cnn.chkQry("insert into Project (title, ownerId, type, description," +
+          " level) values (?, ?, ?, ?, ?)", [body.title, req.session.id,
+          body.type, body.description, body.level], cb);
       }
    },
    function(insRes, fields, cb) {
-    console.log("setting location");
       res.location(router.baseURL + '/' + insRes.insertId).end();
-      cnn.chkQry("insert into Participation (usrId, prjId) values(?, ?)", [req.session.id, insRes.insertId], cb);
+      cnn.chkQry("insert into Participation (usrId, prjId) values(?, ?)",
+       [req.session.id, insRes.insertId], cb);
    }],
    function() {
       cnn.release();
@@ -146,15 +139,11 @@ router.delete('/:prjId', function(req, res) {
 });
 
 router.post('/:prjId/Skls', function(req, res) {
-   console.log("got to the route");
 
    var vld = req.validator;
    var prjId = req.params.prjId;
    var cnn = req.cnn;
    var body = req.body;
-
-   console.log("body.sklId " + body.sklId);
-   console.log("prjId " + prjId);
 
    async.waterfall([
    function(cb) {
@@ -162,12 +151,10 @@ router.post('/:prjId/Skls', function(req, res) {
         [prjId],cb);
    },
    function(prj, fields, cb) {
-       console.log("prjId" + prjId);
        cnn.chkQry("insert into ProjectSkills (sklId, prjId) values (?, ?)",
         [body.sklId, prjId], cb);
    },
    function(insRes, fields, cb) {
-      console.log("setting location");
       res.location(router.baseURL + '/' + insRes.insertId).end();
       cb();
    }],
@@ -189,7 +176,8 @@ router.get('/:prjId/Skls', function(req, res) {
    function(prjs, fields, cb) {
       if (vld.chain(prjs && prjs[0], Tags.notFound)
        .check(req.session, Tags.noLogin)) {
-         cnn.chkQry('select * from ProjectSkills where prjId = ?', [prjId], cb);
+         cnn.chkQry('select * from ProjectSkills where prjId = ?', [prjId],
+          cb);
       }
    },
    function(prjSkls, fields, cb) {
@@ -214,11 +202,11 @@ router.get('/:prjId/Usrs', function(req, res) {
          res.json(usrs);
       }
       req.cnn.release();
-   }
+   };
 
    if(vld.check(req.session, Tags.noLogin))
-   cnn.chkQry('select u.id, u.email, u.firstName, u.lastName, u.phoneNum from' +
-    ' Participation p join User u on p.usrId=u.id where p.prjId = ?',
+   cnn.chkQry('select u.id, u.email, u.firstName, u.lastName, u.phoneNum' +
+    ' from Participation p join User u on p.usrId=u.id where p.prjId = ?',
     [prjId], handler);
 });
 
@@ -241,7 +229,6 @@ router.post('/:prjId/Usrs', function(req, res) {
 
    },
    function(insRes, fields, cb) {
-    console.log("setting location");
       res.location(router.baseURL + '/' + insRes.insertId).end();
       cb();
    }],
@@ -262,7 +249,8 @@ router.delete('/:prjId/Usrs/:usrId', function(req, res) {
    },
    function(prjs, fields, cb) {
       if (vld.chain(prjs && prjs.length, Tags.notFound, null, cb))
-         cnn.chkQry('delete from Participation where usrId = ?', [usrId], cb);
+         cnn.chkQry('delete from Participation where usrId = ? AND prjId=?',
+          [usrId, prjId], cb);
    }],
    function(err) {
       if (!err)
