@@ -9,6 +9,7 @@ app.controller('prjDetailController',
       $scope.type = rsp.data.type;
       $scope.description = rsp.data.description;
       $scope.isOwner = false;
+      $scope.prjOwner = rsp.data.ownerId;
       if (rsp.data.ownerId === $scope.user.id) {
          $scope.isOwner = true;
       }
@@ -16,12 +17,20 @@ app.controller('prjDetailController',
       return $http.get("/Prjs/" + prjId + "/Usrs");
    })
    .then(function(rsp) {
+      var usrArr = [];
       $scope.participant = false;
+
       for (var i = 0; i < rsp.data.length; i++) {
          if (rsp.data[i].usrId === $scope.user.id) {
             $scope.participant = true;
          }
+
+         $http.get("Usrs/" + rsp.data[i].usrId)
+         .then(function(rsp) {
+            usrArr.push(rsp.data[0]);
+         });
       }
+      $scope.linkedUsers = usrArr;
       return $http.get("/Prjs/" + prjId + "/Skls");
    })
    .then(function(sklIds) {
@@ -32,8 +41,8 @@ app.controller('prjDetailController',
          .then(function(rsp) {
             sklArr.push(rsp.data[0].name);
          });
-         $scope.skills = sklArr;
       }
+      $scope.skills = sklArr;
    })
    .catch(function(err) {
       console.log(err);
@@ -45,6 +54,20 @@ app.controller('prjDetailController',
       $http.post("Prjs/" + prjId + "/Usrs/", {email: $scope.user.email})
       .then(function(rsp) {
          $scope.participant = true;
+
+         return $http.get("/Prjs/" + prjId + "/Usrs");
+      })
+      .then(function(rsp) {
+         var usrArr = [];
+
+         for (var i = 0; i < rsp.data.length; i++) {
+            $http.get("Usrs/" + rsp.data[i].usrId)
+            .then(function(rsp) {
+               usrArr.push(rsp.data[0]);
+            });
+         }
+
+         $scope.linkedUsers = usrArr;
       })
       .catch(function(err) {
          console.log(err);
@@ -56,6 +79,19 @@ app.controller('prjDetailController',
       $http.delete("Prjs/" + prjId + "/Usrs/" + $scope.user.id)
       .then(function(rsp) {
          $scope.participant = false;
+
+         return $http.get("/Prjs/" + prjId + "/Usrs");
+      })
+      .then(function(rsp) {
+         var usrArr = [];
+
+         for (var i = 0; i < rsp.data.length; i++) {
+            $http.get("Usrs/" + rsp.data[i].usrId)
+            .then(function(rsp) {
+               usrArr.push(rsp.data[0]);
+            });
+         }
+         $scope.linkedUsers = usrArr;
       })
       .catch(function(err) {
          console.log(err);
