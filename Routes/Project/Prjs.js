@@ -150,8 +150,6 @@ router.get('/:prjId/Skls', function(req, res) {
    var prjId = req.params.prjId;
    var cnn = req.cnn;
 
-   console.log("trying to get skills of a project");
-
    async.waterfall([
    function(cb) {
      if(vld.check(req.session, Tags.noLogin))
@@ -161,11 +159,11 @@ router.get('/:prjId/Skls', function(req, res) {
       if (vld.chain(prjs && prjs[0], Tags.notFound)
        .check(req.session, Tags.noLogin)) {
          cnn.chkQry('select * from ProjectSkills where prjId = ?', [prjId], cb);
-         //res.json(prjs[0]);
       }
    },
    function(prjSkls, fields, cb) {
       res.json(prjSkls);
+      cb();
    }],
    function(err) {
       if (!err)

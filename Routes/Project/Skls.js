@@ -6,12 +6,25 @@ var mysql = require('mysql');
 
 router.baseURL = '/Skls';
 
-module.exports = router;
-
 router.get('/', function(req, res) {
    var vld = req.validator;
-   console.log("trying to get skill");
 
+   var handler = function(err, skill) {
+      if (vld.chain(skill, Tags.notFound)
+       .check(req.session, Tags.noLogin) && !err) {
+         res.json(skill);
+      }
+      req.cnn.release();
+   }
+
+   if (req.query.sklId) {
+      req.cnn.chkQry('select name from Skill where id = ?',
+       [req.query.sklId], handler);
+   }
+   else {
+      req.cnn.chkQry('select name from Skill',
+       [], handler);
+   }
 });
 
 router.post('/', function(req, res) {
@@ -21,3 +34,5 @@ router.post('/', function(req, res) {
 
    console.log("trying to post skill");
 });
+
+module.exports = router;
