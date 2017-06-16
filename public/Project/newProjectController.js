@@ -29,7 +29,9 @@ app.controller('newProjectController',
 
       $http.get("/Prjs")
       .then(function(rsp) {
-         newPrjId = rsp.data.length;
+         newPrjId = rsp.data[rsp.data.length - 1].id;
+         console.log(newPrjId);
+         //newPrjId = rsp.data.length;
       });
 
       for (var i = 0; i < Object.keys($scope.checkedSkills).length; i++) {
