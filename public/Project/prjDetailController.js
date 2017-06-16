@@ -23,7 +23,7 @@ app.controller('prjDetailController',
 
       for (var i = 0; i < rsp.data.length; i++) {
          usrArr.push(rsp.data[i]);
-         if (rsp.data[i].usrId === $scope.user.id) {
+         if (rsp.data[i].id === $scope.user.id) {
             $scope.participant = true;
          }
       }
@@ -59,6 +59,7 @@ app.controller('prjDetailController',
 
          for (var i = 0; i < rsp.data.length; i++) {
             usrArr.push(rsp.data[i]);
+
          }
          $scope.linkedUsers = usrArr;
       })
