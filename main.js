@@ -69,7 +69,27 @@ app.delete('/DB', function(req, res) {
       cbs.push(function(cb) {
          req.cnn.query('INSERT INTO User (firstName, lastName, email,' +
              ' password, phoneNum, role) VALUES ' +
-             '("Joe", "Admin", "adm@11.com", "password", "1111111111", 1);', cb);
+             '("Joe", "Admin", "adm@11.com", "password", "1111111111", 1);');
+         req.cnn.query('INSERT INTO Skill (name)' +
+             'VALUES ("html");'); 
+         req.cnn.query('INSERT INTO Skill (name)' +
+             'VALUES ("css");');
+         req.cnn.query('INSERT INTO Skill (name)' +
+             'VALUES ("c++");');
+         req.cnn.query('INSERT INTO Skill (name)' +
+             'VALUES ("c");');
+         req.cnn.query('INSERT INTO Skill (name)' +
+             'VALUES ("java");');
+         req.cnn.query('INSERT INTO Skill (name)' +
+             'VALUES ("bootstrap");');
+         req.cnn.query('INSERT INTO Skill (name)' +
+             'VALUES ("angular");');
+         req.cnn.query('INSERT INTO Skill (name)' +
+             'VALUES ("python");');
+         req.cnn.query('INSERT INTO Skill (name)' +
+             'VALUES ("public speaking");');
+         req.cnn.query('INSERT INTO Skill (name)' +
+             'VALUES ("node");', cb);
       });
 
       // Callback to clear sessions, release connection and return result
