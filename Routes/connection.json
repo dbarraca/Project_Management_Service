@@ -1,6 +1,6 @@
 {
     "host": "localhost",
     "user": "root",
-    "password": "inouye95",
-    "database": "tihonda"
+    "password": "PMSPASSWORDFORMYSQL",
+    "database": "gheald_final"
 }

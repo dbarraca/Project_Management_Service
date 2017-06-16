@@ -8,3 +8,13 @@
 </div>
 
 <p>{{description}}</p>
+
+<button class="btn btn-primary" type="button" style="margin-top:10px"
+ ng-click="addUsrToPrj()" ng-if="!participant && !isOwner">
+   Add to My Projects
+</button>
+
+<button class="btn btn-danger" type="button" style="margin-top:10px"
+ ng-click="removeUsrFromPrj()" ng-if="!!participant && !isOwner">
+   Remove from My Projects
+</button>
