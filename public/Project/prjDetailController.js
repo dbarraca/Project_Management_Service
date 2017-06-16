@@ -7,7 +7,6 @@ app.controller('prjDetailController',
 
    $http.get("/Prjs/" + prjId)
    .then(function(rsp) {
-      //console.log("rsp.data.title" + rsp.data.title);
       $scope.title = rsp.data.title;
       $scope.type = rsp.data.type;
       $scope.description = rsp.data.description;
@@ -25,31 +24,21 @@ app.controller('prjDetailController',
             $scope.participant = true;
          }
       }
-   })
-/*   .then(function(rsp) {
-      return [{id:1}, {id:2}];
+      return $http.get("/Prjs/" + prjId + "/Skls/");
    })
    .then(function(sklIds) {
       var sklArr = [];
-      console.log("sklIds.length" + sklIds.length);
-      /*
-      for(var i = 0; i < sklIds.length; i++) {
-         console.log("sklId: " + sklIds[i].id);
-         sklArr.push(sklIds[i].id);
-         console.log($http.get("/Skls/", {sklId: sklIds[0].id}).data.name);
+
+      for (var i = 0; i < sklIds.length; i++) {
+         $http.get("/Skls?sklId=" + sklIds.data[i].sklId)
+         .then(function(rsp) {
+            sklArr.push(rsp.data[0].name);
+         });
+         $scope.skills = sklArr;
       }
-      return sklArr;
    })
-*/
-   // .then(function(rsp) {
-   //    return $http.get("/Prjs/" + prjId + "/Skls/");
-   // })
-   // .then(function(rsp) {
-   //    console.log("rsp.data[0].sklId " + rsp.data[0].sklId);
-   //    console.log("rsp.data[0].sklId " + rsp.data[1].sklId);
-   // })
    .catch(function(err) {
-      //nDlg.show($scope, JSON.stringify(err));
+      console.log(err);
    });
 
 

@@ -1,4 +1,4 @@
-<h2>{{title}}</h2>
+<!-- <h2>{{title}}</h2>
 <h3>{{type}}</h3>
 
 <div class="list-group">
@@ -7,7 +7,19 @@
    </div>
 </div>
 
+<p>{{description}}</p> -->
+<h1>{{title}}</h1>
+<br/>
+<h4>Type: {{type}}</h4>
+<h4>Description:</h4>
 <p>{{description}}</p>
+<br/>
+<h4>Skill Requirements:</h4>
+<div class="list-group">
+   <div class="list-group-item" ng-repeat="skill in skills">
+      {{skill}}
+   </div>
+</div>
 
 <button class="btn btn-primary" type="button" style="margin-top:10px"
  ng-click="addUsrToPrj()" ng-if="!participant && !isOwner">
