@@ -8,6 +8,7 @@ app.controller('prjDetailController',
       $scope.title = rsp.data.title;
       $scope.type = rsp.data.type;
       $scope.description = rsp.data.description;
+      $scope.level = rsp.data.level;
       $scope.isOwner = false;
       $scope.prjOwner = rsp.data.ownerId;
       if (rsp.data.ownerId === $scope.user.id) {
