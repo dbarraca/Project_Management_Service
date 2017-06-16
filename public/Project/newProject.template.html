@@ -22,9 +22,18 @@
          <textarea type="text" class="form-control" placeholder="description"
           ng-model="project.description"></textarea>
       </fieldset>
+      <fieldset class="form-group">
+         <label>Level</label>
+         <select class="form-group" ng-model="project.level">
+           <option value="Freshmen">Freshmen</option>
+           <option value="Sophomore">Sophomore</option>
+           <option value="Junior">Junior</option>
+           <option value="Senior">Senior</option>
+         </select>
+      </fieldset>
 
       <button type="submit" class="btn btn-primary" ng-click="newProj()"
-      ng-disabled="!project.title || !project.type">
+      ng-disabled="!project.title || !project.type || !project.description">
          Submit
       </button>
       <button type="button" class="btn btn-warning" ng-click="quit()">Cancel</button>

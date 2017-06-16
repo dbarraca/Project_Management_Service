@@ -17,7 +17,7 @@ create table Project (
    id int auto_increment primary key,
    ownerId int,
    title varchar(80) not null,
-   level int,
+   level varchar(30),
    type varchar(80) not null,
    description varchar(5000) not null,
    constraint FKProject_ownerId foreign key (ownerId) references User(id)

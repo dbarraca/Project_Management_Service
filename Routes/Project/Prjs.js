@@ -228,7 +228,7 @@ router.delete('/:prjId/Usrs/:usrId', function(req, res) {
       cnn.chkQry('select * from Participation where prjId = ?', [prjId], cb);
    },
    function(prjs, fields, cb) {
-      if (vld.check(prjs && prjs.length, Tags.notFound, null, cb))
+      if (vld.chain(prjs && prjs.length, Tags.notFound, null, cb))
          cnn.chkQry('delete from Participation where usrId = ?', [usrId], cb);
    }],
    function(err) {

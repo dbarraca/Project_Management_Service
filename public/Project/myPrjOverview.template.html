@@ -1,0 +1,8 @@
+<h2>My Projects</h2>
+<div class="list-group">
+   <div class="list-group-item" ng-repeat="prj in prjs">
+      <prj-summary to-summarize="prj" user="{{user.id}}"></prj-summary>
+   </div>
+</div>
+
+<button class="btn btn-primary" type="button" style="margin-top:5px"  ui-sref="newProject">New Project</button>
