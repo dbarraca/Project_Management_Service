@@ -1,7 +1,17 @@
 <h2>Projects</h2>
+<div>
+	<form>
+		<fieldset class="form-group">
+         <label>Filter by Skill</label>
+         <select ng-model="selectedSkill" ng-change="filterProjs()"
+		      ng-options="skill.id as (skill.name) for skill in skillSelections">
+		   </select>
+      </fieldset>
+	</form>
+</div>
 <div class="list-group">
    <div class="list-group-item" ng-repeat="prj in prjs">
-      <prj-summary to-summarize="prj" user="{{user.id}}"></prj-summary>
+      <prj-summary delprj="delPrj($index)" editprj="editPrj($index)" to-summarize="prj" user="{{user.id}}"></prj-summary>
    </div>
 </div>
 

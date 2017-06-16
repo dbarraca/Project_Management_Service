@@ -34,16 +34,18 @@ app.directive('prjSummary', [function() {
       scope: {
          prj: "=toSummarize",
          user: '@',
+         delprj: "&",
+         editprj: "&"
       },
       template: '<a  href="#" ui-sref="prjDetail({prjId: {{prj.id}}})">'
        + '{{prj.title}}</a>'
- /*      + '<button type="button" class="btn btn-default pull-right" '
-       + 'ng-show="user == prj.ownerId" ng-click="del($index)">'
+       + '<button type="button" class="btn btn-default pull-right" '
+       + 'ng-show="user == prj.ownerId" ng-click="delprj()">'
        + '<span class="glyphicon glyphicon-trash"></span>'
        + '</button>'
        + '<button type="button" class="btn btn-default btn-sm pull-right" '
-       + 'ng-show="user == prj.ownerId" ng-click="edit($index)">'
-       + '<span class="glyphicon glyphicon-edit"></span></button>'*/
+       + 'ng-show="user == prj.ownerId" ng-click="editprj()">'
+       + '<span class="glyphicon glyphicon-edit"></span></button>'
        + '<div>{{prj.type}}</div> <div>Recommended Difficulty: {{prj.level}}</div>'
    };
 }]);

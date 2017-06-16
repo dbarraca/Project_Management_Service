@@ -2,90 +2,71 @@ app.controller('prjOverviewController',
  ['$scope', '$state', '$http','$uibModal', 'notifyDlg', 'prjs',
  function($scope, $state, $http, $uibM, nDlg, prjs) {
    $scope.prjs = prjs;
-/*
-   $scope.userId = 'test';
+   $scope.skillSelections = [];
 
-   $scope.delPrj = function(index) {
-      $http.get('/Prjs')
+   $http.get("/Skls")
+   .then(function(rsp) {
+      console.log("Name" + rsp.data);
+      $scope.skillSelections = rsp.data;
+      $scope.skillSelections.unshift({id: "", name: "All"});
+   });
+
+   $scope.filterProjs = function() {
+      console.log($scope.selectedSkill);
+      $http.get('/Prjs?skill=' + $scope.selectedSkill)
       .then(function(rsp) {
-         $scope.dlgTitle = rsp.data[index].title;
-      });
-
-
-      $uibM.open({
-         templateUrl: 'Project/delPrjDlg.template.html',
-         scope: $scope
-      }).result
-      .then(function() {
-         return $http.get('/Prjs');
-      })
-      .then(function(rsp) {
-         $http.delete("Prjs/" + rsp.data[index].id)
-      })
-      .then(function() {
-         $state.reload();
-      })
-      .catch(function(err) {
-      });;
-   }
-
-   $scope.editPrj = function(index) {
-      $scope.dlgTitle = "Edit Project";
-      var inputTitle;
-      var selectedTitle;
-
-      $uibM.open({
-         templateUrl: 'Project/editPrjDlg.template.html',
-         scope: $scope
-      }).result
-      .then(function(newTitle) {
-         selectedTitle = newTitle;
-         inputTitle = newTitle;
-      })
-      .then(function() {
-         return $http.get('/Prjs');
-      })
-      .then(function(rsp) {
-         return $http.put("Prjs/" + rsp.data[index].id, {title: inputTitle});
-      })
-      .then(function() {
-         return $http.get('/Prjs');
-      })
-      .then(function(rsp) {
+         console.log(rsp.data);
          $scope.prjs = rsp.data;
-      })
-      .catch(function(err) {
-         if (err.data[0].tag == "dupTitle")
-            nDlg.show($scope, "Another project already has title "
-             + selectedTitle, "Error");
       });
    };
 
-   $scope.newPrj = function() {
-      $scope.title = null;
-      $scope.dlgTitle = "New Project";
-      var selectedTitle;
-      console.log("new project button pressed");
+   $scope.delPrj = function(index) {
+      var selectedTitle = $scope.prjs[index].title;
+      var selectedTitleId = $scope.prjs[index].id;
 
-      $uibM.open({
-         templateUrl: 'Project/editPrjDlg.template.html',
-         scope: $scope
-      }).result
-      .then(function(newTitle) {
-         console.log("type " + newType);
-         selectedTitle = newTitle;
-         return $http.post("/Prjs", {title: newTitle, type: newType});
+      nDlg.show($scope, "Delete project " + selectedTitle
+       + "?", "Verify", ["Yes", "No"])
+      .then(function(btn) {
+         if (btn === "Yes") {
+            return $http.delete("Prjs/" + selectedTitleId);
+         }
+         else {
+            $state.go('prjOverview');
+         }
       })
       .then(function() {
          return $http.get('/Prjs');
       })
       .then(function(rsp) {
          $scope.prjs = rsp.data;
+      });
+   }
+
+   $scope.editPrj = function(index) {
+      $scope.title = null;
+      $scope.dlgTitle = "Edit Project";
+
+      var selectedTitle;
+
+      $uibM.open({
+         templateUrl: 'Project/editPrjDlg.template.html',
+         scope: $scope
+      }).result
+      .then(function(newTitle) {
+         selectedTitle = newTitle;
+         return $http.put("Prjs/" + $scope.prjs[index].id, {title: newTitle});
+      })
+      .then(function () {
+         return $http.get('/Prjs');
+      })
+      .then(function(rsp) {
+         $scope.prjs = rsp.data;
       })
       .catch(function(err) {
-         if (err.data[0].tag == "dupTitle")
-            nDlg.show($scope, "Another project already has title "
-             + selectedTitle, "Error");
+         if (err && err.data[0].tag == "dupTitle") {
+            nDlg.show($scope, "Another project already has title " + 
+             selectedTitle, "Error");
+         }
       });
-   };*/
+   };
 }]);

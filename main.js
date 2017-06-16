@@ -75,7 +75,7 @@ app.delete('/DB', function(req, res) {
          req.cnn.query('INSERT INTO Skill (name)' +
              'VALUES ("css");');
          req.cnn.query('INSERT INTO Skill (name)' +
-             'VALUES ("c++");');
+             'VALUES ("javascript");');
          req.cnn.query('INSERT INTO Skill (name)' +
              'VALUES ("c");');
          req.cnn.query('INSERT INTO Skill (name)' +

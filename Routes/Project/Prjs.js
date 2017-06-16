@@ -24,8 +24,7 @@ router.get('/', function(req, res) {
    }
    else if (!req.query.user && req.query.skill) {
       req.cnn.chkQry('select pr.id, pr.ownerId, pr.title, pr.level, pr.type, ' +
-       'pr.description from Participation p join Project pr on p.prjId=pr.id ' +
-       'join ProjectSkills ps on ps.prjId=p.prjId where sklId=?',
+       'pr.description from Project pr join ProjectSkills ps on pr.id=ps.prjId where sklId=?',
        [req.query.skill], handler);
    }
    else if (req.query.user && req.query.skill) {
@@ -262,7 +261,7 @@ router.delete('/:prjId/Usrs/:usrId', function(req, res) {
    },
    function(prjs, fields, cb) {
       if (vld.chain(prjs && prjs.length, Tags.notFound, null, cb))
-         cnn.chkQry('delete from Participation where usrId = ?', [usrId], cb);
+         cnn.chkQry('delete from Participation where usrId = ? AND prjId=?', [usrId, prjId], cb);
    }],
    function(err) {
       if (!err)

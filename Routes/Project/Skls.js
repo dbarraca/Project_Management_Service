@@ -18,15 +18,15 @@ router.get('/', function(req, res) {
    }
 
    if (req.query.sklId) {
-      req.cnn.chkQry('select name from Skill where id = ?',
+      req.cnn.chkQry('select * from Skill where id = ?',
        [req.query.sklId], handler);
    }
    else if (req.query.name) {
-      req.cnn.chkQry('select id from Skill where name = ?',
+      req.cnn.chkQry('select * from Skill where name = ?',
        [req.query.name], handler);
    }
    else {
-      req.cnn.chkQry('select name from Skill',
+      req.cnn.chkQry('select * from Skill',
        [], handler);
    }
 });
