@@ -22,12 +22,12 @@ app.controller('prjDetailController',
             $scope.participant = true;
          }
       }
-      return $http.get("/Prjs/" + prjId + "/Skls/");
+      return $http.get("/Prjs/" + prjId + "/Skls");
    })
    .then(function(sklIds) {
       var sklArr = [];
 
-      for (var i = 0; i < sklIds.length; i++) {
+      for (var i = 0; i < sklIds.data.length; i++) {
          $http.get("/Skls?sklId=" + sklIds.data[i].sklId)
          .then(function(rsp) {
             sklArr.push(rsp.data[0].name);
