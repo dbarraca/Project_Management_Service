@@ -22,14 +22,10 @@ app.controller('prjDetailController',
       $scope.participant = false;
 
       for (var i = 0; i < rsp.data.length; i++) {
+         usrArr.push(rsp.data[i]);
          if (rsp.data[i].usrId === $scope.user.id) {
             $scope.participant = true;
          }
-
-         $http.get("Usrs/" + rsp.data[i].usrId)
-         .then(function(rsp) {
-            usrArr.push(rsp.data[0]);
-         });
       }
       $scope.linkedUsers = usrArr;
       return $http.get("/Prjs/" + prjId + "/Skls");
@@ -62,12 +58,8 @@ app.controller('prjDetailController',
          var usrArr = [];
 
          for (var i = 0; i < rsp.data.length; i++) {
-            $http.get("Usrs/" + rsp.data[i].usrId)
-            .then(function(rsp) {
-               usrArr.push(rsp.data[0]);
-            });
+            usrArr.push(rsp.data[i]);
          }
-
          $scope.linkedUsers = usrArr;
       })
       .catch(function(err) {
@@ -87,10 +79,7 @@ app.controller('prjDetailController',
          var usrArr = [];
 
          for (var i = 0; i < rsp.data.length; i++) {
-            $http.get("Usrs/" + rsp.data[i].usrId)
-            .then(function(rsp) {
-               usrArr.push(rsp.data[0]);
-            });
+            usrArr.push(rsp.data[i]);
          }
          $scope.linkedUsers = usrArr;
       })

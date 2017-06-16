@@ -45,9 +45,8 @@ app.config(['$stateProvider', '$urlRouterProvider',
          templateUrl: 'Project/myPrjOverview.template.html',
          controller: 'myPrjOverviewController',
          resolve: {
-            prjs: ['$q', '$http', '$stateParams', 
+            prjs: ['$q', '$http', '$stateParams',
              function($q, $http, $stateParams) {
-               console.log($stateParams.ownerId);
                return $http.get('/Prjs?user=' + $stateParams.ownerId)
                .then(function(response) {
                   return response.data;
@@ -68,7 +67,7 @@ app.config(['$stateProvider', '$urlRouterProvider',
                })
 //               return new Array({id:12});
             }],
-            
+
             description: [
             '$q', '$http', '$stateParams',
              function($q, $http, $stateParams) {

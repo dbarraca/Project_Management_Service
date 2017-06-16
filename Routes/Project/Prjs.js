@@ -217,7 +217,9 @@ router.get('/:prjId/Usrs', function(req, res) {
    }
 
    if(vld.check(req.session, Tags.noLogin))
-      cnn.chkQry('select usrId from Participation where prjId = ?', [prjId], handler);
+   cnn.chkQry('select u.id, u.email, u.firstName, u.lastName, u.phoneNum from' +
+    ' Participation p join User u on p.usrId=u.id where p.prjId = ?',
+    [prjId], handler);
 });
 
 // needs error checking
