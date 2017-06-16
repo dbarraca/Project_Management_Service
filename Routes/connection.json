@@ -1,6 +1,6 @@
 {
     "host": "localhost",
-    "user": "root",
-    "password": "PMSPASSWORDFORMYSQL",
-    "database": "gheald_final"
+    "user": "dbarraca",
+    "password": "Queaf510rusmsql",
+    "database": "dbarraca"
 }

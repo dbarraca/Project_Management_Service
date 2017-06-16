@@ -2,11 +2,6 @@ app.controller('prjDetailController',
  ['$scope', '$state', '$stateParams', '$http', '$uibModal', 'notifyDlg',
   function($scope, $state, $stateParams, $http, $uibM, nDlg) {
    var prjId = $stateParams.prjId;
-<<<<<<< HEAD
-=======
-   //$scope.skills = skls;
-   //$scope.description = "dummyDescription in prjDetailController";
->>>>>>> 50b2c847296cbd6e2b435f5f1d2f245db1cfc4d1
 
    $http.get("/Prjs/" + prjId)
    .then(function(rsp) {
